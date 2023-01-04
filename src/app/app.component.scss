@@ -1,0 +1,10 @@
+@import '../variable.scss';
+@import '../utility.scss';
+.main {
+    // background-color: $bgColor;
+    min-height: 100vh;
+}
+
+nb-sidebar {
+    z-index: 2;
+}

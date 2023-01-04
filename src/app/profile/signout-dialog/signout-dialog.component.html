@@ -1,0 +1,25 @@
+
+<mat-dialog-content>
+    <h3>{{message}}</h3>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+    <button 
+        class="btn btn-success" 
+        style="margin-right: 10px;"
+        mat-raised-button color="primary" 
+        (click)="onConfirmClick()" 
+        tabindex="1">
+        {{confirmBtnTxt}} 
+    </button>
+
+    <button 
+        class="btn btn-danger" 
+        mat-raised-button 
+        mat-dialog-close 
+        tabindex="-1">
+        {{cancelBtnTxt}}
+    </button>
+
+</mat-dialog-actions>

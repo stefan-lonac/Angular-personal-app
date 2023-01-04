@@ -1,0 +1,39 @@
+<button
+  nbButton
+  outline
+  status="primary"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="nav-link"
+  routerLink="/todos"
+>
+  Todo List
+</button>
+
+<button
+  nbButton
+  outline
+  status="primary"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="nav-link"
+  routerLink="/profile"
+>
+  Profile
+</button>
+
+<button
+  nbButton
+  outline
+  status="primary"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="nav-link"
+  (click)="toggleSidebar()"
+>
+  Games
+</button>
+
+<div class="d-flex align-items-center theme-switcher">
+  <app-theme-switcher></app-theme-switcher>
+</div>

@@ -1,0 +1,52 @@
+@import "../../variable.scss";
+@import "../../utility.scss";
+
+:host {
+  th,
+  td {
+    vertical-align: middle;
+  }
+
+  td {
+    font-size: 16px;
+    a {
+      text-decoration: none;
+      text-transform: capitalize;
+      cursor: pointer;
+      color: $darkLight;
+      &.done-check {
+        text-decoration: line-through;
+      }
+
+      &:hover {
+        color: cornflowerblue;
+      }
+    }
+    button.btn {
+      &:nth-child(2) {
+        margin: 0 5px;
+      }
+    }
+    .status-table {
+      input {
+        margin-right: 5px;
+      }
+    }
+
+    a {
+      &.edit-button {
+        color: $blueEdit;
+      }
+      &.delete-button {
+        color: $redError;
+        margin: 0 5px;
+      }
+      &.view-button {
+        color: $grayColor;
+      }
+      fa-icon {
+        font-size: 19px;
+      }
+    }
+  }
+}

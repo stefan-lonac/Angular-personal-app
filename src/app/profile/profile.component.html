@@ -1,0 +1,146 @@
+<ng-container class="" *ngIf="authService.userData as user">
+  <section>
+    <h1>User Profile</h1>
+
+    <nb-card class="box-shadow">
+      <nb-card-body class="profile-info">
+        <img 
+          [src]="user?.photoURL === undefined || null ? defaultImg : user?.photoURL"
+          alt="avatar"
+          class="rounded-circle img-fluid"
+          style="width: 150px"
+        />
+        <h2 class="my-3">
+          {{ user?.displayName | emptyText }}
+        </h2>
+        <p class="text-muted mb-1">
+          {{ user?.role | emptyText }}
+        </p>
+        <p class="text-muted mb-4">
+          {{ user?.location | emptyText }}
+        </p>
+      </nb-card-body>
+    </nb-card>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
+      <nb-card class="box-shadow">
+        <nb-card-body>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Full Name</p>
+            </div>
+            <div class="col-sm-9">
+              <ng-container *ngIf="editMode">
+                <input
+                  nbInput
+                  class="edit"
+                  type="text"
+                  formControlName="displayName"
+                />
+              </ng-container>
+
+              <p *ngIf="!editMode" class="text-muted mb-0">
+                {{ user?.displayName | emptyText }}
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Role</p>
+            </div>
+            <div class="col-sm-9">
+              <ng-container *ngIf="editMode">
+                <input
+                  nbInput
+                  class="edit"
+                  type="text"
+                  formControlName="role"
+                />
+              </ng-container>
+
+              <p *ngIf="!editMode" class="text-muted mb-0">
+                {{ user?.role | emptyText }}
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Location</p>
+            </div>
+            <div class="col-sm-9">
+              <ng-container *ngIf="editMode">
+                <input
+                  nbInput
+                  class="edit"
+                  type="text"
+                  formControlName="location"
+                />
+              </ng-container>
+
+              <p *ngIf="!editMode" class="text-muted mb-0">
+                {{ user?.location | emptyText }}
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ user?.email | emptyText }}</p>
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">ID</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ user.uid }}</p>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+
+      <div
+        class="controls-btn"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+      >
+        <div class="edit-save-buttons">
+          <button
+            *ngIf="!editMode"
+            nbButton
+            status="primary"
+            type="button"
+            (click)="onEditMode()"
+          >
+            Edit
+          </button>
+
+          <button *ngIf="editMode" nbButton status="success" type="submit">
+            Save
+          </button>
+        </div>
+
+        <div class="logout-button">
+          <button
+            type="button"
+            nbButton
+            status="danger"
+            (click)="authService.SignOut()"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+</ng-container>

@@ -1,0 +1,59 @@
+@import "../../variable.scss";
+@import "../../utility.scss";
+
+:host {
+  nb-card {
+    width: 500px;
+    max-width: 100%;
+    margin: 0 auto;
+    .input-container {
+        position: relative;
+        max-width: 100%;
+        input {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    
+
+    .authBlock {
+      h3 {
+        font-size: 24px;
+      }
+    }
+
+    input,
+    label {
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+      &.btn-primary {
+        width: 100%;
+        color: #fff;
+      }
+      &.error-msg {
+        border: solid $redError 1px;
+      }
+    }
+    .error-msg-text {
+      color: $redError;
+      position: absolute;
+      top: 9px;
+      right: 10px;
+      font-size: 12px;
+    }
+
+    .redirectToLogin {
+      margin: 10px 0;
+      a {
+        color: $blueEdit;
+      }
+      span {
+        a {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

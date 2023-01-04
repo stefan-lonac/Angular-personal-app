@@ -1,0 +1,65 @@
+
+    <nb-card class="box-shadow" [nbSpinner]="authService.loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
+      <nb-card-body>
+        <div>
+          <div class="authBlock">
+            <h3>Sign In</h3>
+            <div style="margin: 10px 0">
+              <p style="margin-bottom: 0">With these credentials:</p>
+              <span style="display: block"
+                >Email: <strong>admin@admin.com</strong></span
+              >
+              <span style="display: block"
+                >Password: <strong>pass1234</strong></span
+              >
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+              <div fxLayout="column" fxLayoutAlign="start none">
+                <input
+                  type="text"
+                  class="mb-10"
+                  placeholder="Email"
+                  formControlName="email"
+                  type="text"
+                  nbInput
+                  [ngClass]="{'error-msg': email?.errors?.['pattern'] && email?.errors?.['email']}"
+                  required
+                />
+
+                <span
+                  class="error-msg-text"
+                  *ngIf="email?.errors?.['pattern'] && email?.errors?.['email']"
+                >
+                  Please enter a valid email
+                </span>
+
+                <input
+                  type="password"
+                  class="mb-10"
+                  placeholder="Password"
+                  formControlName="password"
+                  nbInput
+                  required
+                />
+
+                <button type="submit" nbButton status="primary">Log in</button>
+              </div>
+            </form>
+
+            <span style="color: red" *ngIf="!authService.wrongLogin">
+              Wrong email or password
+            </span>
+          </div>
+
+          <div class="redirectToLogin">
+            <span
+              >Don't have an account?<a class="redirect" routerLink="/sign-up">
+                Sign Up</a
+              ></span
+            >
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+

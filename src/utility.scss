@@ -1,0 +1,46 @@
+p,
+h2 {
+  color: #6c757d;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+input,
+textarea {
+  &.edit {
+    border: 1px solid #21252936;
+    border-radius: 5px;
+    padding-left: 10px;
+    width: auto;
+    color: gray;
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.box-shadow {
+  box-shadow: -1px 1px 5px 0px rgba(128 128 128 / 0.3);
+  border-radius: 0.3rem;
+}
+
+nb-checkbox {
+  .badge {
+    vertical-align: middle;
+    cursor: pointer;
+    &.done {
+      background-color: $greenDone !important;
+    }
+  }
+}
+button {
+  &.nav-link {
+    text-transform: capitalize;
+    &.active {
+      background-color: $blueEdit;
+      color: $white;
+    }
+  }
+}

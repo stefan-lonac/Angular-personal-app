@@ -1,0 +1,25 @@
+<nb-card class="form-input-card">
+  <nb-card-body>
+    <h3>Are You Sure?</h3>
+
+    <p>
+      {{ message }} <strong>{{ title }}</strong> ?
+    </p>
+
+    <button
+      class="btn"
+      nbButton
+      status="success"
+      style="margin-right: 10px"
+      color="primary"
+      (click)="submit(title)"
+      tabindex="0"
+    >
+      {{ confirmBtnTxt }}
+    </button>
+
+    <button class="btn" nbButton status="danger" (click)="close()" tabindex="0">
+      {{ cancelBtnTxt }}
+    </button>
+  </nb-card-body>
+</nb-card>

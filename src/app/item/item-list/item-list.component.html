@@ -1,0 +1,119 @@
+
+<!-- TODO Preuredjivanje liste -->
+
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
+  <nb-card-body>
+    <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
+      <h2>Todo list</h2>
+
+      <div>
+        <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
+          <nb-option value="" (click)="addHighlightColor()">None</nb-option>
+          <nb-option value="#cfe2ff" (click)="addHighlightColor()"
+            >Blue</nb-option
+          >
+          <nb-option value="#00000013" (click)="addHighlightColor()"
+            >Gray</nb-option
+          >
+          <nb-option value="#bcd0c7" (click)="addHighlightColor()"
+            >Green</nb-option
+          >
+        </nb-select>
+      </div>
+    </div>
+    <ng-container *ngIf="itemsLength === 0; else showItems">
+      <p>Empty Todo. Please add some Todos</p>
+    </ng-container>
+
+    <ng-template #showItems>
+      <table equalColumnsWidth>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Controls</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="fw-normal"
+            todo-item
+            [colorHighlight]="color"
+            defaultColor=""
+            *ngFor="let itemsEl of items; let i = index; trackBy: trackById"
+            [items]="itemsEl"
+            [index]="i"
+            [isEditing]="editingId === itemsEl.id"
+            (setEditModeId)="setEditId($event)"
+            [@inOutAnimation]
+          ></tr>
+        </tbody>
+
+        <tbody></tbody>
+      </table>
+
+      <nb-radio-group fxLayout="row" fxLayoutAlign="center center">
+        <nb-radio (click)="changeFilter(ItemFilters.all)" checked>All</nb-radio>
+        <nb-radio (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
+        <nb-radio (click)="changeFilter(ItemFilters.completed)"
+          >Completed</nb-radio
+        >
+      </nb-radio-group>
+    </ng-template>
+
+    <div class="add-todo">
+      <div class="title-input">
+        <span
+          class="length-input"
+          [ngClass]="{ errorLength: title.length > 20 }"
+          >{{ title | length : 20 }}</span
+        >
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          class="add"
+          [ngClass]="{
+            'invalid-input': title.length < 3,
+            'empty-input': title === '',
+            'valid-input': title.length >= 3
+          }"
+          id="title"
+          placeholder="Title Todo"
+          [value]="title"
+          (keyup)="cahngeText($event)"
+          [(ngModel)]="title"
+        />
+      </div>
+
+      <textarea
+        type="text"
+        nbInput
+        fullWidth
+        class="add"
+        style="height: 100px"
+        [ngClass]="{
+          'invalid-input': description.length < 3,
+          'empty-input': description === '',
+          'valid-input': description.length >= 3
+        }"
+        id="description"
+        placeholder="Description Todo"
+        [value]="description"
+        [(ngModel)]="description"
+      ></textarea>
+
+      <button
+        (click)="onAddItem()"
+        nbButton
+        status="success"
+        [disabled]="title === '' || title.length < 3 || title.length > 20"
+      >
+        Add
+      </button>
+    </div>
+  </nb-card-body>
+</nb-card>

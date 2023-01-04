@@ -1,0 +1,74 @@
+<div class="container container-weather">
+  <div class="row d-flex justify-content-center">
+    <div class="w-50">
+      <form [formGroup]="weatherSrchForm" (ngSubmit)="sendToAPI()">
+        <div class="form-group form-floating mb-3 box-shadow">
+          <input
+            class="form-control"
+            type="text"
+            id="weatherLocation"
+            aria-describedby="weatherLocation"
+            placeholder="Please input a Location"
+            formControlName="location"
+          />
+          <label for="title">Search for Weather</label>
+        </div>
+        <div class="mt-3">
+          <button type="submit" class="btn btn-success btn-md">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="row weather-card"
+    *ngIf="weatherData !== undefined && weatherData.success !== false"
+  >
+    <div class="col-md-12">
+      <div
+        class="card box-shadow"
+        [ngClass]="weatherData.current_condition[0].temp_C | temperatureClass"
+      >
+        <div class="temperature">
+          <p>{{ weatherData.current_condition[0].weatherDesc[0].value }}</p>
+        </div>
+
+        <!-- <span class="icon"><img class="img-fluid" [src]="weatherData?.current_condition.weather_icons[0]"/></span> -->
+        <div class="title">
+          <p>{{ weatherData.nearest_area[0].areaName[0].value }}</p>
+        </div>
+
+        <div class="temperature">
+          <p>{{ weatherData.current_condition[0].temp_C }}<sup>&deg;C</sup></p>
+        </div>
+
+        <div class="row footer">
+          <div class="col-3">
+            <div class="header">Wind Speed</div>
+            <div class="value">
+              {{ weatherData.current_condition[0].windspeedKmph }} Kmph
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="header">Feels like</div>
+            <div class="value">
+              {{ weatherData.current_condition[0].FeelsLikeC }}<sup>&deg;</sup>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="header">Location</div>
+            <div class="value">
+              {{ weatherData.nearest_area[0].country[0].value }}
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="header">Pressure</div>
+            <div class="value">
+              {{ weatherData.current_condition[0].pressure }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<section>
+  <div class="container py-5">
+    <h1>Item details</h1>
+
+    <div class="row" *ngIf="item">
+      <div class="col-lg-8">
+        <form [formGroup]="itemForm" (ngSubmit)="onUpdate()">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Item Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <ng-container *ngIf="editMode">
+                    <input class="edit" type="text" formControlName="title" />
+                  </ng-container>
+
+                  <p *ngIf="!editMode" class="text-muted mb-0">
+                    {{ item.title }}
+                  </p>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Description</p>
+                </div>
+                <div class="col-sm-9">
+                  <ng-container *ngIf="editMode">
+                    <textarea
+                      class="edit"
+                      type="text"
+                      formControlName="description"
+                      rows="4"
+                      cols="50"
+                    ></textarea>
+                  </ng-container>
+
+                  <p *ngIf="!editMode" class="text-muted mb-0">
+                    {{ item.description }}
+                  </p>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Status</p>
+                </div>
+                <div class="col-sm-9">
+                  <ng-container *ngIf="editMode">
+                    <nb-checkbox
+                      (checkedChange)="toggleChecked($event)"                      
+                      [checked]="item.done"
+                      [status]="checked ? 'success' : 'primary'"
+                      [ngClass]="item.done ? 'done' : 'not-done'"
+                      formControlName="done"
+                    >
+                      <span
+                        class="badge text-bg-primary"
+                        [ngClass]="checked ? 'done' : 'not-done'"
+                        >{{ checked ? "Done" : "Not Done" }}</span
+                      >
+                    </nb-checkbox>
+                  </ng-container>
+
+                  <p
+                    *ngIf="!editMode"
+                    class="mb-0 badge text-bg-primary"
+                    [ngClass]="item.done ? 'done' : 'not-done'"
+                  >
+                    {{ !item.done ? "Not done" : "Done" }}
+                  </p>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Date</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">
+                    {{ item.date | date : "short" }}
+                  </p>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">ID</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ item.id }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="controls-btn d-flex align-items-center justify-content-between"
+          >
+            <div class="edit-save-buttons">
+              <button
+                *ngIf="!editMode"
+                class="btn btn-primary"
+                type="button"
+                (click)="onEditMode()"
+              >
+                Edit
+              </button>
+
+              <button *ngIf="editMode" class="btn btn-success" type="submit">
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,60 @@
+<th scope="row">{{ index + 1 }}</th>
+
+<td [ngClass]="{ editing: isEditingProps }" class="p-3">
+  <a
+    *ngIf="!isEditingProps"
+    [ngClass]="{ 'done-check': items.done, 'notDone-check': !items.done }"
+    (dblclick)="onEditMode()"
+  >
+    {{ items.title }}
+  </a>
+
+  <ng-container *ngIf="isEditingProps">
+    <input
+      class="edit"
+      type="text"
+      nbInput
+      #titleInput
+      [value]="items.title"
+      (keyup)="updateItem($event)"
+      (keyup.enter)="onUpdateItem()"
+    />
+  </ng-container>
+</td>
+
+<td>
+  <div class="status-table">
+    <nb-checkbox
+      (change)="changeStatus()"
+      [checked]="items.done"
+      [status]="items.done ? 'success' : 'primary'"
+      [ngClass]="items.done ? 'done' : 'not-done'"
+    >
+      <span
+        class="badge text-bg-primary"
+        [ngClass]="items.done ? 'done' : 'not-done'"
+        >{{ items.done ? "Done" : "Not Done" }}</span
+      >
+    </nb-checkbox>
+  </div>
+</td>
+
+<td>
+  {{ items.date | date : "short" }}
+</td>
+
+<td>
+  <a class="edit-button" (click)="onEditMode()">
+    <!-- If NOT edit mode activate ** Edit ** -->
+    <fa-icon *ngIf="!isEditingProps" [icon]="faEdit"></fa-icon>
+    <fa-icon *ngIf="isEditingProps" [icon]="faClose"></fa-icon>
+  </a>
+
+  <a class="delete-button" (click)="onDelete()">
+    <fa-icon [icon]="faTrash"></fa-icon>
+  </a>
+
+  <a class="view-button" (click)="onView()">
+    <fa-icon [icon]="faView"></fa-icon>
+  </a>
+</td>

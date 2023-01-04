@@ -1,0 +1,89 @@
+@import '../../variable.scss';
+
+.container-weather {
+    margin-top: 30px;
+    .weather-card {
+        
+        .its-too-hot {
+            background-color: #F7B580;
+        }
+        .its-nice {
+            background-color: #E9F5FD;
+        }
+        .card {
+            padding: 1rem;
+            margin: 1.5rem 4vw;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .title {
+            justify-content: center;
+            display: flex;
+            margin: 15px 0;
+            p {
+                margin: 0;
+                font-size: 1.2rem;
+                color: $darkLight;
+            }
+        }
+
+        .temperature {
+            margin: 5px 0;
+            p {
+                font-size: 2rem;
+                color: $darkLight;
+            }
+        }
+        
+        .temp {
+            font-size: 2.6rem;
+            margin-bottom: 1rem;
+        }
+        .header {
+            font-size: 1rem;
+        }
+
+        .value, .header {
+            color: $darkLight;
+        }
+        .col-4 {
+            padding: 0 0.2rem;
+        }
+        .icon{
+            align-self: flex-end;
+            margin-right: -2.5rem;
+            margin-top: -2rem;
+            z-index: 999;
+        }
+        .icon img{
+            width: 5rem;
+        }
+
+        .footer {
+            margin-top: 20px;
+            .value {
+                font-weight: 700;
+            }
+        }
+
+    }
+
+}
+
+@media(max-width:768px){
+    .card{
+        margin: 1.5rem;
+    }
+}
+
+@media(max-width:767px) {
+
+    .container {
+        height: fit-content;
+        .weather {
+            width: 100%;
+        }  
+    }
+ 
+}

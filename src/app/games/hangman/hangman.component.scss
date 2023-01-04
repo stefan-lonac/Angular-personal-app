@@ -1,0 +1,33 @@
+@import '../../../variable.scss';
+@import '../../../utility.scss';
+
+:host {
+    ul {
+        list-style: none;
+        li {
+            margin: 10px;
+            position: relative;
+            .dis-none {
+                opacity: 0;
+            }
+            .word-line {
+                position: absolute;
+            }
+            .hidden-word {
+                text-transform: uppercase;
+            }
+        }   
+    }
+    .question {
+        margin: 20px 0;
+        p {
+            letter-spacing: 15px;
+            font-size: 20px;
+        }
+    }
+    .letters {
+        button {
+            margin: 5px;
+        }
+    }
+}

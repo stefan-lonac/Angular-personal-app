@@ -1,0 +1,65 @@
+@use '../../../themes' as *;
+@import "../../../variable.scss";
+
+:host {
+  .list-info {
+    margin-bottom: 20px;
+    h2 {
+      margin: 0;
+    }
+  }
+  table {
+    width: 100%;
+    tbody {
+      tr {
+        border-bottom: solid 1px $grayColor;
+      }
+    }
+  }
+
+  nb-radio-group {
+    margin: 15px 0;
+    nb-radio {
+      cursor: pointer;
+    }
+  }
+
+  .add-todo {
+    .title-input {
+      position: relative;
+      .length-input {
+        position: absolute;
+        right: 5px;
+        top: 2px;
+        color: $darkLight;
+        font-size: 13px;
+        .errorLength {
+          color: red;
+        }
+      }
+    }
+    input,
+    textarea {
+      margin-bottom: 10px;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+      &.add {
+        &.valid-input {
+          border: solid 1px #198754;
+        }
+        &.invalid-input {
+          border: solid 1px #dc3545;
+          &.empty-input {
+            border: solid 1px #ced4da;
+          }
+        }
+      }
+    }
+
+    button {
+      text-transform: nb-theme(capitalize-text-button);
+    }
+  }
+}

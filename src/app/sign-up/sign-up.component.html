@@ -1,0 +1,102 @@
+<nb-card class="box-shadow" [nbSpinner]="authService.loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
+  <nb-card-body>
+    <div>
+      <div class="authBlock">
+        <h3>Sign Up</h3>
+
+        <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+          <div fxLayout="column" fxLayoutAlign="start none">
+
+            <div class="input-container">
+              <input
+                class="mb-10"
+                type="text"
+                nbInput
+                placeholder="Email"
+                formControlName="email"
+                [ngClass]="{'error-msg': email?.errors?.['pattern'] && email?.errors?.['email']}"
+                required
+              />
+  
+              <span
+                class="error-msg-text"
+                *ngIf="
+                  (sUpForm.email.touched || submitted) &&
+                  sUpForm.email.errors?.required
+                "
+              >
+                Email is required
+              </span>
+              <span
+                class="error-msg-text"
+                *ngIf="
+                  (sUpForm.password.touched || submitted) &&
+                  email?.errors?.pattern &&
+                  email?.errors?.email
+                "
+              >
+                Please enter a valid email
+              </span>
+            </div>
+
+            <div class="input-container">
+              <input
+                type="password"
+                class="mb-10"
+                nbInput
+                placeholder="Password"
+                formControlName="password"
+                required
+              />
+  
+              <span
+                class="error-msg-text"
+                *ngIf="
+                  (sUpForm.password.touched || submitted) &&
+                  sUpForm.password.errors?.minlength
+                "
+              >
+                Please enter more than 6 characters
+              </span>
+            </div>
+
+            <div class="input-container">
+              <input
+                class="mb-10"
+                type="password"
+                nbInput
+                placeholder="Confirm Password"
+                formControlName="confirmPassword"
+                required
+              />
+  
+              <span
+                class="error-msg-text"
+                *ngIf="
+                  sUpForm.confirmPassword.touched &&
+                  sUpForm.confirmPassword.errors?.confirmedValidator
+                "
+              >
+                Password missmatch
+              </span>
+            </div>
+
+            <button type="submit" nbButton status="primary">Sign Up</button>
+          </div>
+        </form>
+
+        <span style="color: red" *ngIf="!authService.wrongLogin">
+          Wrong email or password
+        </span>
+      </div>
+
+      <div class="redirectToLogin">
+        <span
+          >Have an account?<a class="redirect" routerLink="/login">
+            Sign In</a
+          ></span
+        >
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

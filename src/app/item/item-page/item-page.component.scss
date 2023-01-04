@@ -1,0 +1,11 @@
+@import "../../../variable.scss";
+@import "../../../utility.scss";
+
+:host {
+    .badge {
+        &.done {
+            background-color: $greenDone!important;
+        }
+        color: #fff;
+    }
+}
