@@ -71,18 +71,6 @@ export class HangmanComponent implements OnInit, OnChanges {
       this.numberOfmisses--;
     }
     this.numOfMisses;
-    // if (this.question.includes(letter)) {
-    //   const letterSplit = letter
-    //     .split('')
-    //     .filter((value: string, index: number, valueArray: any) => {
-    //       return valueArray.indexOf(value) === index;
-    //     })
-    //     .join('');
-    //   this.correctWord = [...this.correctWord, letterSplit];
-    // } else {
-    //   this.numberOfmisses--;
-    // }
-    // this.numOfMisses;
   }
 
   // TODO Podesiti da proverava da li je uneta recenica ista kao odgovor
