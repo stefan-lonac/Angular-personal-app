@@ -10,7 +10,7 @@ export class HangmanComponent implements OnInit, OnChanges {
   counter = 0;
   clickedLetters: string[] = [];
   numberOfmisses: number = 6;
-  success: boolean = false;
+  success: boolean;
   letters: string = 'abcdefghijklmnopqrstuvwxyz';
   letter: string[];
   question: any;
@@ -57,6 +57,7 @@ export class HangmanComponent implements OnInit, OnChanges {
   ngOnChanges(): void {}
 
   public chooseLetter(letter: string) {
+    this.clickedLetters.push(letter);
     if (this.question.includes(letter)) {
       for (var i = 0; i < this.question.length; i++) {
         if (this.question[i] == letter.toLowerCase()) {
@@ -67,22 +68,9 @@ export class HangmanComponent implements OnInit, OnChanges {
         }
       }
     } else {
-      this.clickedLetters.push(letter);
       this.numberOfmisses--;
     }
     this.numOfMisses;
-    // if (this.question.includes(letter)) {
-    //   const letterSplit = letter
-    //     .split('')
-    //     .filter((value: string, index: number, valueArray: any) => {
-    //       return valueArray.indexOf(value) === index;
-    //     })
-    //     .join('');
-    //   this.correctWord = [...this.correctWord, letterSplit];
-    // } else {
-    //   this.numberOfmisses--;
-    // }
-    // this.numOfMisses;
   }
 
   // TODO Podesiti da proverava da li je uneta recenica ista kao odgovor
@@ -90,17 +78,15 @@ export class HangmanComponent implements OnInit, OnChanges {
   private get numOfMisses() {
     let lengthWord = this.correctWord.filter((y) => y).join('');
     console.log(this.question.length + ' ' + lengthWord);
-    return (this.success = true
-      ? lengthWord === this.question.length
-      : this.numberOfmisses < 0);
-    // if (lengthWord === this.question.length) {
-    //   return (this.success = true);
-    // } else if (this.numberOfmisses < 0) {
-    //   this.numberOfmisses--;
-    //   return (this.success = false);
-    // } else {
-    //   return (this.success = false);
-    // }
+
+    if (this.displayWord === this.question.join('')) {
+      return (this.success = true);
+    } else if (this.numberOfmisses <= 0) {
+      console.log(':(');
+      return (this.numberOfmisses = 0);
+    } else {
+      return (this.success = false);
+    }
   }
 
   private get randomWord() {
