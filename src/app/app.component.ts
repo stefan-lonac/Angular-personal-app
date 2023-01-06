@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
   animations: [slideInAnimation],
 })
 export class AppComponent {
-  title = 'todo-app';
+  title = 'Stefan App';
 
   constructor(
     private contexts: ChildrenOutletContexts,

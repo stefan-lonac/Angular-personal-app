@@ -3,23 +3,11 @@
     fixed
     *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
   >
-    <app-header xLayout="row" fxLayoutAlign="start center"></app-header>
+    <header xLayout="row" fxLayoutAlign="start center"></header>
   </nb-layout-header>
 
   <nb-sidebar state="collapsed" tag="left">
-    <button
-      nbButton
-      shape="semi-round"
-      status="info"
-      outline
-      status="primary"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-link"
-      routerLink="/hangman"
-    >
-      Hangman
-    </button>
+    <sidebar-games></sidebar-games>
   </nb-sidebar>
 
   <nb-layout-column>
