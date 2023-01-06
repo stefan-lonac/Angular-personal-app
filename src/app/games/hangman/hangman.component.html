@@ -1,11 +1,14 @@
-
 <nb-card>
   <nb-card-header>
     <h2>Welcome to Hangman Game!</h2>
   </nb-card-header>
 
   <nb-card-body>
-    <div class="p20" style="width: 460px">
+    <div
+      class="hangman-canvas"
+      fxLayout="row"
+      fxLayoutAlign="space-between start"
+    >
       <div
         style="
           border-left: 2px solid black;
@@ -50,7 +53,11 @@
                 <path
                   *ngIf="this.numberOfmisses == 2 || this.numberOfmisses < 2"
                   d="m222.5 666.36-47 72z"
-                  style="stroke: #000000; stroke-linecap: round; stroke-width: 10"
+                  style="
+                    stroke: #000000;
+                    stroke-linecap: round;
+                    stroke-width: 10;
+                  "
                 />
                 <path
                   *ngIf="this.numberOfmisses == 1 || this.numberOfmisses < 1"
@@ -67,34 +74,45 @@
           </svg>
         </div>
       </div>
+
+      <ng-container>
+        <div class="status-of-game">
+          <ng-container *ngIf="numberOfmisses <= 0 && success === false">
+            <h2>You lose!</h2>
+          </ng-container>
+          <ng-container *ngIf="success === true">
+            <h2>You Win!</h2>
+            <button
+              nbButton
+              hero
+              status="primary"
+            >New Game</button>
+          </ng-container>
+        </div>
+      </ng-container>
+      <h3>
+        Lives: <strong>{{ numberOfmisses }}</strong>
+      </h3>
     </div>
 
-    
-  <div fxLayout="row" fxLayoutAlign="center center" class="question">
-    <p>{{ displayWord }}</p>
-  </div>
-    
+    <div fxLayout="row" fxLayoutAlign="center center" class="question">
+      <p>{{ displayWord }}</p>
+    </div>
   </nb-card-body>
 
+  <nb-card-footer>
+    <div class="letters" fxLayout="row wrap" fxLayoutAlign="center center">
+      <ng-container *ngFor="let l of letter">
+        <button
+          nbButton
+          hero
+          status="primary"
+          [disabled]="clickedLetters.includes(l)"
+          (click)="chooseLetter(l)"
+        >
+          {{ l }}
+        </button>
+      </ng-container>
+    </div>
+  </nb-card-footer>
 </nb-card>
-
-
-
-<div class="letters" fxLayout="row wrap" fxLayoutAlign="center center">
-  <ng-container *ngFor="let l of letter">
-    <button
-      nbButton
-      hero
-      status="primary"
-      [disabled]="clickedLetters.includes(l)"
-      (click)="chooseLetter(l)"
-    >
-      {{ l }}
-    </button>
-  </ng-container>
-</div>
-{{ success }}
-
-<h3>Lives</h3>
-<p>{{ numberOfmisses }}</p>
-
