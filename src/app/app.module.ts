@@ -19,13 +19,14 @@ import { ItemComponent } from './item/item.component';
 import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemsSevice } from './item/item.service';
 import { HeaderComponent } from './header/header.component';
+import { SidebarComponent } from './header/sidebar/sidebar.component';
+import { HeaderService } from './header/header.service';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { ProfileComponent } from './profile/profile.component';
 import { SignoutDialogComponent } from './profile/signout-dialog/signout-dialog.component';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 import { DeleteDialogComponent } from './item/delete-dialog/delete-dialog.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { WeatherComponent } from './weather/weather.component';
 import { ApixuService } from './weather/apixu.service';
@@ -75,7 +76,6 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     SignoutDialogComponent,
     ThemeSwitcherComponent,
     DeleteDialogComponent,
-    PageNotFoundComponent,
     SignUpComponent,
     WeatherComponent,
     TemperaturePipeClass,
@@ -85,6 +85,7 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     LengthClassDirective,
     EmptyTextPipe,
     HangmanComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,6 +124,7 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     NbButtonGroupModule,
   ],
   providers: [
+    HeaderService,
     ItemsSevice,
     AuthService,
     ApixuService,

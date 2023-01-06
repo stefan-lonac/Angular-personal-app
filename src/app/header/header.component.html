@@ -29,11 +29,11 @@
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
   class="nav-link"
-  (click)="toggleSidebar()"
+  (click)="headerService.toggleSidebar()"
 >
   Games
 </button>
 
 <div class="d-flex align-items-center theme-switcher">
-  <app-theme-switcher></app-theme-switcher>
+  <theme-switcher></theme-switcher>
 </div>

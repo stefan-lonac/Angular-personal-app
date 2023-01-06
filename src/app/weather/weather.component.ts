@@ -4,7 +4,7 @@ import { ApixuService } from './apixu.service';
 import { Weather } from './weather.model';
 
 @Component({
-  selector: 'app-weather',
+  selector: 'weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
 })
