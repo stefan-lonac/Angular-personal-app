@@ -1,5 +1,4 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { Word } from './hangman.model';
 
 @Component({
   selector: 'hangman',
@@ -7,14 +6,13 @@ import { Word } from './hangman.model';
   styleUrls: ['./hangman.component.scss'],
 })
 export class HangmanComponent implements OnInit, OnChanges {
-  counter = 0;
   clickedLetters: string[] = [];
   numberOfmisses: number = 6;
   success: boolean;
   letters: string = 'abcdefghijklmnopqrstuvwxyz';
   letter: string[];
   question: any;
-  correctWord: Word[] = [];
+  displayWord: string;
   words = [
     'array',
     'Rails',
@@ -42,7 +40,6 @@ export class HangmanComponent implements OnInit, OnChanges {
     'closure',
   ];
 
-  displayWord: string;
   constructor() {}
 
   ngOnInit(): void {
@@ -57,7 +54,6 @@ export class HangmanComponent implements OnInit, OnChanges {
   ngOnChanges(): void {}
 
   public chooseLetter(letter: string) {
-    this.clickedLetters.push(letter);
     if (this.question.includes(letter)) {
       for (var i = 0; i < this.question.length; i++) {
         if (this.question[i] == letter.toLowerCase()) {
@@ -70,23 +66,21 @@ export class HangmanComponent implements OnInit, OnChanges {
     } else {
       this.numberOfmisses--;
     }
+    this.clickedLetters.push(letter);
     this.numOfMisses;
   }
 
-  // TODO Podesiti da proverava da li je uneta recenica ista kao odgovor
-
   private get numOfMisses() {
-    let lengthWord = this.correctWord.filter((y) => y).join('');
-    console.log(this.question.length + ' ' + lengthWord);
-
-    if (this.displayWord === this.question.join('')) {
+    if (this.displayWord === this.question.join('') && this.success !== false) {
       return (this.success = true);
     } else if (this.numberOfmisses <= 0) {
-      console.log(':(');
-      return (this.numberOfmisses = 0);
-    } else {
-      return (this.success = false);
+      return (
+        (this.numberOfmisses = 0),
+        (this.success = false),
+        (this.displayWord = this.question.join(''))
+      );
     }
+    return;
   }
 
   private get randomWord() {
@@ -101,4 +95,10 @@ export class HangmanComponent implements OnInit, OnChanges {
     }
     return (this.displayWord = censure);
   }
+
+  // private get disableButtonsEndGame() {
+  //   return this.success !== undefined
+  //     ? (this.clickedLetters = this.letters.split(''))
+  //     : this.success;
+  // }
 }
