@@ -1,6 +1,84 @@
-<div fxLayout="row" fxLayoutAlign="center center" class="question">
-  <p>{{ displayWord }}</p>
-</div>
+
+<nb-card>
+  <nb-card-header>
+    <h2>Welcome to Hangman Game!</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="p20" style="width: 460px">
+      <div
+        style="
+          border-left: 2px solid black;
+          border-top: 2px solid black;
+          height: 160px;
+          width: 100px;
+          padding-top: 20px;
+        "
+      >
+        <div style="position: absolute; margin-left: 40px">
+          <svg
+            class="stickman"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:cc="http://creativecommons.org/ns#"
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+            xmlns:svg="http://www.w3.org/2000/svg"
+            xmlns:ns1="http://sozi.baierouge.fr"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 168.38 357.72"
+            width="60"
+          >
+            <g transform="translate(-165.46 -71.804)">
+              <g transform="translate(15.143 -322.57)">
+                <path
+                  *ngIf="this.numberOfmisses == 5 || this.numberOfmisses < 5"
+                  d="m275 450.36c0 22.644-18.356 41-41 41s-41-18.356-41-41 18.356-41 41-41 41 18.356 41 41z"
+                  style="stroke: #000000; stroke-width: 10; fill: none"
+                />
+                <path
+                  *ngIf="this.numberOfmisses == 4 || this.numberOfmisses < 4"
+                  d="m234 511.91v138.91z"
+                  style="stroke: #000000; stroke-width: 8.4187"
+                />
+                <path
+                  *ngIf="this.numberOfmisses == 3 || this.numberOfmisses < 3"
+                  d="m244 667.36 47 72z"
+                  style="stroke: #000000; stroke-width: 10"
+                />
+                <path
+                  *ngIf="this.numberOfmisses == 2 || this.numberOfmisses < 2"
+                  d="m222.5 666.36-47 72z"
+                  style="stroke: #000000; stroke-linecap: round; stroke-width: 10"
+                />
+                <path
+                  *ngIf="this.numberOfmisses == 1 || this.numberOfmisses < 1"
+                  d="m211.5 520.36-47 72z"
+                  style="stroke: #000000; stroke-width: 10"
+                />
+                <path
+                  *ngIf="this.numberOfmisses == 0 || this.numberOfmisses < 0"
+                  d="m257.5 514.36 47 72z"
+                  style="stroke: #000000; stroke-width: 10"
+                />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    
+  <div fxLayout="row" fxLayoutAlign="center center" class="question">
+    <p>{{ displayWord }}</p>
+  </div>
+    
+  </nb-card-body>
+
+</nb-card>
+
+
 
 <div class="letters" fxLayout="row wrap" fxLayoutAlign="center center">
   <ng-container *ngFor="let l of letter">
@@ -20,66 +98,3 @@
 <h3>Lives</h3>
 <p>{{ numberOfmisses }}</p>
 
-<div class="p20" style="width: 460px">
-  <div
-    style="
-      border-left: 2px solid black;
-      border-top: 2px solid black;
-      height: 160px;
-      width: 100px;
-      padding-top: 20px;
-    "
-  >
-    <div style="position: absolute; margin-left: 40px">
-      <svg
-        class="stickman"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:svg="http://www.w3.org/2000/svg"
-        xmlns:ns1="http://sozi.baierouge.fr"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 0 168.38 357.72"
-        width="60"
-      >
-        <g transform="translate(-165.46 -71.804)">
-          <g transform="translate(15.143 -322.57)">
-            <path
-              *ngIf="this.numberOfmisses == 5 || this.numberOfmisses < 5"
-              d="m275 450.36c0 22.644-18.356 41-41 41s-41-18.356-41-41 18.356-41 41-41 41 18.356 41 41z"
-              style="stroke: #000000; stroke-width: 10; fill: none"
-            />
-            <path
-              *ngIf="this.numberOfmisses == 4 || this.numberOfmisses < 4"
-              d="m234 511.91v138.91z"
-              style="stroke: #000000; stroke-width: 8.4187"
-            />
-            <path
-              *ngIf="this.numberOfmisses == 3 || this.numberOfmisses < 3"
-              d="m244 667.36 47 72z"
-              style="stroke: #000000; stroke-width: 10"
-            />
-            <path
-              *ngIf="this.numberOfmisses == 2 || this.numberOfmisses < 2"
-              d="m222.5 666.36-47 72z"
-              style="stroke: #000000; stroke-linecap: round; stroke-width: 10"
-            />
-            <path
-              *ngIf="this.numberOfmisses == 1 || this.numberOfmisses < 1"
-              d="m211.5 520.36-47 72z"
-              style="stroke: #000000; stroke-width: 10"
-            />
-            <path
-              *ngIf="this.numberOfmisses == 0 || this.numberOfmisses < 0"
-              d="m257.5 514.36 47 72z"
-              style="stroke: #000000; stroke-width: 10"
-            />
-          </g>
-        </g>
-      </svg>
-    </div>
-  </div>
-</div>
