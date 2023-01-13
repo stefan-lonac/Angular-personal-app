@@ -1,6 +1,4 @@
-<th scope="row">{{ index + 1 }}</th>
-
-<td [ngClass]="{ editing: isEditingProps }" class="p-3">
+<div [ngClass]="{ editing: isEditingProps }" class="item">
   <a
     *ngIf="!isEditingProps"
     [ngClass]="{ 'done-check': items.done, 'notDone-check': !items.done }"
@@ -20,41 +18,39 @@
       (keyup.enter)="onUpdateItem()"
     />
   </ng-container>
-</td>
+</div>
 
-<td>
-  <div class="status-table">
-    <nb-checkbox
-      (change)="changeStatus()"
-      [checked]="items.done"
-      [status]="items.done ? 'success' : 'primary'"
-      [ngClass]="items.done ? 'done' : 'not-done'"
-    >
-      <span
-        class="badge text-bg-primary"
+<div class="options-item item" fxLayout="row" fxLayoutAlign="center center">
+  <div class="">
+    <div class="status-table">
+      <nb-checkbox
+        (change)="changeStatus()"
+        [checked]="items.done"
+        [status]="items.done ? 'success' : 'primary'"
         [ngClass]="items.done ? 'done' : 'not-done'"
-        >{{ items.done ? "Done" : "Not Done" }}</span
       >
-    </nb-checkbox>
+        <span
+          class="badge text-bg-primary"
+          [ngClass]="items.done ? 'done' : 'not-done'"
+          >{{ items.done ? "Done" : "Not Done" }}</span
+        >
+      </nb-checkbox>
+    </div>
   </div>
-</td>
 
-<td>
-  {{ items.date | date : "short" }}
-</td>
+  <div class="ml-15">
+    <a class="edit-button" (click)="onEditMode()">
+      <!-- If NOT edit mode activate ** Edit ** -->
+      <fa-icon *ngIf="!isEditingProps" [icon]="faEdit"></fa-icon>
+      <fa-icon *ngIf="isEditingProps" [icon]="faClose"></fa-icon>
+    </a>
 
-<td>
-  <a class="edit-button" (click)="onEditMode()">
-    <!-- If NOT edit mode activate ** Edit ** -->
-    <fa-icon *ngIf="!isEditingProps" [icon]="faEdit"></fa-icon>
-    <fa-icon *ngIf="isEditingProps" [icon]="faClose"></fa-icon>
-  </a>
+    <a class="delete-button" (click)="onDelete()">
+      <fa-icon [icon]="faTrash"></fa-icon>
+    </a>
 
-  <a class="delete-button" (click)="onDelete()">
-    <fa-icon [icon]="faTrash"></fa-icon>
-  </a>
-
-  <a class="view-button" (click)="onView()">
-    <fa-icon [icon]="faView"></fa-icon>
-  </a>
-</td>
+    <a class="view-button" (click)="onView()">
+      <fa-icon [icon]="faView"></fa-icon>
+    </a>
+  </div>
+</div>

@@ -16,7 +16,7 @@ export class HighlightDirective implements OnInit {
 
   ngOnInit(): void {
     const colorGet = JSON.parse(localStorage.getItem('table-highlight')!);
-    this.colorHighlight = colorGet.color;
+    this.colorHighlight = colorGet.cheched;
   }
 
   @HostListener('mouseenter') onMouseEnter() {

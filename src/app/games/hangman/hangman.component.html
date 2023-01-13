@@ -75,19 +75,17 @@
         </div>
       </div>
 
-      <ng-container>
+      <ng-container *ngIf="gameStatus !== undefined">
         <div class="status-of-game">
-          <ng-container *ngIf="numberOfmisses <= 0 && success === false">
+          <ng-container *ngIf="numberOfmisses <= 0">
             <h2>You lose!</h2>
           </ng-container>
-          <ng-container *ngIf="success === true">
+          <ng-container *ngIf="gameStatus === true">
             <h2>You Win!</h2>
-            <button
-              nbButton
-              hero
-              status="primary"
-            >New Game</button>
           </ng-container>
+          <button nbButton hero status="primary" (click)="newGame()">
+            New Game
+          </button>
         </div>
       </ng-container>
       <h3>

@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
 import { User } from '../login/user';
@@ -21,7 +22,7 @@ export class ProfileComponent implements OnInit, OnChanges {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private nbToastr: NbToastrService
   ) {}
 
   ngOnChanges(): void {
@@ -34,10 +35,10 @@ export class ProfileComponent implements OnInit, OnChanges {
       this.user = { ...userGet };
 
       const useEmailName = this.user.email.split(/@(?=[^@]*$)/);
-      this.emailName = useEmailName;
+      this.emailName = useEmailName[0];
 
       this.profileForm = this.formBuilder.group({
-        displayName: [this.user.displayName],
+        displayName: [this.user.displayName || this.emailName],
         role: [this.user.role],
         location: [this.user.location],
       });
@@ -52,11 +53,11 @@ export class ProfileComponent implements OnInit, OnChanges {
         .update(this.user.uid, this.profileForm.value)
         .then(() => {
           // Show popup after Edit Prfile
-          this.toastr.success('Profile edited successfully!', '', {
-            timeOut: 3000,
-            extendedTimeOut: 1000,
-            progressBar: true,
-            tapToDismiss: true,
+          this.nbToastr.show(``, `Profile edited successfully!`, {
+            status: 'success',
+            position: NbGlobalLogicalPosition.BOTTOM_END,
+            limit: 3,
+            duration: 3000,
           });
           this.authService.SetUserData(this.authService.userData);
           localStorage.setItem(
@@ -71,5 +72,15 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   onEditMode() {
     this.editMode = true;
+
+    this.profileForm = this.formBuilder.group({
+      displayName: [this.user.displayName || this.emailName],
+      role: [this.user.role],
+      location: [this.user.location],
+    });
+  }
+
+  cancelEdit() {
+    this.editMode = false;
   }
 }

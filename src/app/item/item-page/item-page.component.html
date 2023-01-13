@@ -1,4 +1,8 @@
 <section>
+  <button nbButton status="info" (click)="back()">
+    <nb-icon icon="arrow-back-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+  </button>
+
   <div class="container py-5">
     <h1>Item details</h1>
 
@@ -52,7 +56,7 @@
                 <div class="col-sm-9">
                   <ng-container *ngIf="editMode">
                     <nb-checkbox
-                      (checkedChange)="toggleChecked($event)"                      
+                      (checkedChange)="toggleChecked($event)"
                       [checked]="item.done"
                       [status]="checked ? 'success' : 'primary'"
                       [ngClass]="item.done ? 'done' : 'not-done'"
@@ -103,18 +107,34 @@
           <div
             class="controls-btn d-flex align-items-center justify-content-between"
           >
-            <div class="edit-save-buttons">
+            <div class="edit-save-buttons" fxLayout="row" fxLayoutAlign="space-between center">
               <button
                 *ngIf="!editMode"
-                class="btn btn-primary"
+                nbButton
+                status="primary"
                 type="button"
                 (click)="onEditMode()"
               >
                 Edit
               </button>
 
-              <button *ngIf="editMode" class="btn btn-success" type="submit">
+              <button
+                *ngIf="editMode"
+                nbButton
+                status="success"
+                type="submit"
+              >
                 Save
+              </button>
+
+              <button
+                *ngIf="editMode"
+                nbButton
+                status="danger"
+                type="button"
+                (click)="cancelEdit()"
+              >
+                Cancel
               </button>
             </div>
           </div>

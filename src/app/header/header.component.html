@@ -22,7 +22,7 @@
   Profile
 </button>
 
-<button
+<!-- <button
   nbButton
   outline
   status="primary"
@@ -30,6 +30,21 @@
   [routerLinkActiveOptions]="{ exact: true }"
   class="nav-link"
   (click)="headerService.toggleSidebar()"
+>
+  Games
+</button> -->
+
+<button
+  nbButton
+  outline
+  status="primary"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="nav-link"
+  outline
+  nbButton
+  [nbContextMenu]="gamesItems"
+  nbContextMenuTag="gamesItems"
 >
   Games
 </button>

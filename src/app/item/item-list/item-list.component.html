@@ -1,4 +1,3 @@
-
 <!-- TODO Preuredjivanje liste -->
 
 <nb-card [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
@@ -26,43 +25,31 @@
     </ng-container>
 
     <ng-template #showItems>
-      <table equalColumnsWidth>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Controls</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr
-            class="fw-normal"
-            todo-item
-            [colorHighlight]="color"
-            defaultColor=""
-            *ngFor="let itemsEl of items; let i = index; trackBy: trackById"
-            [items]="itemsEl"
-            [index]="i"
-            [isEditing]="editingId === itemsEl.id"
-            (setEditModeId)="setEditId($event)"
-            [@inOutAnimation]
-          ></tr>
-        </tbody>
-
-        <tbody></tbody>
-      </table>
-
-      <nb-radio-group fxLayout="row" fxLayoutAlign="center center">
-        <nb-radio (click)="changeFilter(ItemFilters.all)" checked>All</nb-radio>
-        <nb-radio (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
-        <nb-radio (click)="changeFilter(ItemFilters.completed)"
-          >Completed</nb-radio
-        >
-      </nb-radio-group>
+      <ul class="list-todo">
+        <li
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          class="fw-normal ptb-20"
+          todo-item
+          [colorHighlight]="color"
+          defaultColor=""
+          *ngFor="let itemsEl of items; let i = index; trackBy: trackById"
+          [items]="itemsEl"
+          [index]="i"
+          [isEditing]="editingId === itemsEl.id"
+          (setEditModeId)="setEditId($event)"
+          [@inOutAnimation]
+        ></li>
+      </ul>
     </ng-template>
+
+    <nb-radio-group fxLayout="row" fxLayoutAlign="center center">
+      <nb-radio (click)="changeFilter(ItemFilters.all)" checked>All</nb-radio>
+      <nb-radio (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
+      <nb-radio (click)="changeFilter(ItemFilters.completed)"
+        >Completed</nb-radio
+      >
+    </nb-radio-group>
 
     <div class="add-todo">
       <div class="title-input">

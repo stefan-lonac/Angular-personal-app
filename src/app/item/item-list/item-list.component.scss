@@ -1,19 +1,19 @@
 @use '../../../themes' as *;
 @import "../../../variable.scss";
+@import "../../../utility.scss";
+
 
 :host {
+  ul.list-todo {
+    padding: 0;
+    li {
+      border-bottom: solid 1px $grayColor;
+    }
+  }
   .list-info {
     margin-bottom: 20px;
     h2 {
       margin: 0;
-    }
-  }
-  table {
-    width: 100%;
-    tbody {
-      tr {
-        border-bottom: solid 1px $grayColor;
-      }
     }
   }
 

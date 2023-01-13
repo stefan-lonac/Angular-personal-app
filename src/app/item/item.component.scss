@@ -1,25 +1,22 @@
+@use "@nebular/theme/styles/theming" as *;
 @import "../../variable.scss";
 @import "../../utility.scss";
 
 :host {
-  th,
-  td {
-    vertical-align: middle;
-  }
 
-  td {
+  .item {
     font-size: 16px;
     a {
       text-decoration: none;
       text-transform: capitalize;
       cursor: pointer;
-      color: $darkLight;
+      color: nb-theme(href-color);
       &.done-check {
         text-decoration: line-through;
       }
 
       &:hover {
-        color: cornflowerblue;
+        color: nb-theme(href-color-hover);
       }
     }
     button.btn {

@@ -1,7 +1,7 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
 import { map } from 'rxjs';
+import { animationList } from '../assets/animation-list';
 
 import { ItemFilters } from '../item-filter.enum';
 import { Items } from '../item.model';
@@ -11,18 +11,7 @@ import { ItemsSevice } from '../item.service';
   selector: 'todo-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
-  animations: [
-    trigger('inOutAnimation', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('0.5s ease-out', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
-  ],
+  animations: [animationList],
 })
 export class ItemListComponent implements OnInit {
   id: number;
@@ -37,11 +26,10 @@ export class ItemListComponent implements OnInit {
   selectedItem = '';
   // colorHighlight var
   color = '';
-  defaultColor = '';
 
   constructor(
     private itemsService: ItemsSevice,
-    private toastr: ToastrService
+    private nbToastr: NbToastrService
   ) {}
 
   ngOnInit(): void {
@@ -94,8 +82,13 @@ export class ItemListComponent implements OnInit {
 
   onAddItem() {
     if (this.title !== '' && this.title.length >= 3) {
-      // Show popup after add Item
-      this.toastr.success('Added successfully!', 'Item - ' + this.title);
+      this.nbToastr.show(`Item - ${this.title}`, `Added successfully!`, {
+        status: 'success',
+        position: NbGlobalLogicalPosition.BOTTOM_END,
+        limit: 3,
+      });
+
+      // this.toastr.success('Added successfully!', 'Item - ' + this.title);
       this.itemsService.addItem(this.title, this.description).then(() => {
         this.title = '';
         this.description = '';
@@ -113,12 +106,7 @@ export class ItemListComponent implements OnInit {
   }
 
   addHighlightColor() {
-    // const target = <HTMLInputElement>event.target;
     this.color = this.selectedItem;
-
-    if (this.selectedItem == this.color) {
-      console.log(this.selectedItem);
-    }
 
     const data = {
       color: this.color,

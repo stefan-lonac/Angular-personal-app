@@ -1,11 +1,33 @@
+@use "@nebular/theme/styles/theming" as *;
+@import "variable.scss";
+
 p,
 h2 {
-  color: #6c757d;
+  color: nb-theme(text-basic-color);
 }
 
 .mb-10 {
   margin-bottom: 10px;
 }
+
+.ml-15 {
+  margin-left: 15px;
+}
+
+.mtb-20 {
+  margin: 20px 0;
+}
+
+.ptb-20 {
+  padding: 20px;
+}
+
+.main {
+  width: 1250px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
 
 input,
 textarea {
@@ -14,7 +36,7 @@ textarea {
     border-radius: 5px;
     padding-left: 10px;
     width: auto;
-    color: gray;
+    color: nb-theme(input-color-edit);
     &:focus-visible {
       outline: none;
     }
