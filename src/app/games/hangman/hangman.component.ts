@@ -49,7 +49,6 @@ export class HangmanComponent implements OnInit, OnChanges {
     this.letter = this.letters.split('');
     this.randomWord;
     this.hiddenQuestion;
-    console.log(this.letter);
   }
 
   ngOnChanges(): void {}

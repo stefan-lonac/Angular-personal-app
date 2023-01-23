@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
 import { map } from 'rxjs';
 import { animationList } from '../assets/animation-list';
@@ -24,8 +24,21 @@ export class ItemListComponent implements OnInit {
   filter = 'all';
   loading: boolean = true;
   selectedItem = '';
+  setPerList: number = 5;
   // colorHighlight var
   color = '';
+
+  fetchItems$ = this.itemsService
+    .getAll()
+    .snapshotChanges()
+    .pipe(
+      map((changes) =>
+        changes.map((c) => ({
+          id_main: c.payload.doc.id,
+          ...c.payload.doc.data(),
+        }))
+      )
+    );
 
   constructor(
     private itemsService: ItemsSevice,
@@ -37,33 +50,27 @@ export class ItemListComponent implements OnInit {
   }
 
   fetchItems() {
-    this.itemsService
-      .getAll()
-      .snapshotChanges()
-      .pipe(
-        map((changes) =>
-          changes.map((c) => ({
-            id_main: c.payload.doc.id,
-            ...c.payload.doc.data(),
-          }))
-        )
-      )
-      .subscribe((data: Items[]) => {
-        var filterValue = this.filter;
-        let itemsLength: number;
-        this.loading = false;
+    this.fetchItems$.subscribe((data: Items[]) => {
+      this.loading = false;
 
-        if (filterValue === ItemFilters.active) {
+      switch (this.filter) {
+        case ItemFilters.active: {
           this.items = data.filter((item) => !item.done);
-          itemsLength = this.items.length;
-        } else if (filterValue === ItemFilters.completed) {
-          this.items = data.filter((item) => item.done);
-          itemsLength = this.items.length;
-        } else if (filterValue === ItemFilters.all) {
-          this.items = data;
-          itemsLength = this.items.length;
+          this.itemsLength = this.items.length;
+          break;
         }
-      });
+        case ItemFilters.completed: {
+          this.items = data.filter((item) => item.done);
+          this.itemsLength = this.items.length;
+          break;
+        }
+        default: {
+          this.items = data;
+          this.itemsLength = this.items.length;
+          break;
+        }
+      }
+    });
   }
 
   // When items interactive (add, remove...) this function watch for loop
@@ -88,7 +95,6 @@ export class ItemListComponent implements OnInit {
         limit: 3,
       });
 
-      // this.toastr.success('Added successfully!', 'Item - ' + this.title);
       this.itemsService.addItem(this.title, this.description).then(() => {
         this.title = '';
         this.description = '';
@@ -103,6 +109,11 @@ export class ItemListComponent implements OnInit {
   changeFilter(filter: string) {
     this.filter = filter;
     this.fetchItems();
+  }
+
+  setPerPage() {
+    const value = this.setPerList;
+    this.itemsService.perNumPage(value);
   }
 
   addHighlightColor() {
