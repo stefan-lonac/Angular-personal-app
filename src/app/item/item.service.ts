@@ -18,7 +18,7 @@ export class ItemsSevice {
   items: Items[];
   private dbpath = '/item';
   itemsRef: AngularFirestoreCollection<Items>;
-  perPage: number = 5;
+  perPage: number;
 
   constructor(
     private authService: AuthService,

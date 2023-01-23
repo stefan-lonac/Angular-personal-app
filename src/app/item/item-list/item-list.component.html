@@ -22,16 +22,10 @@
 
       <div>
         <nb-select placeholder="Item per page" [(selected)]="setPerList">
-          <nb-option value="5" (click)="setPerPage()">5</nb-option>
-          <nb-option value="10" (click)="setPerPage()"
-            >10</nb-option
-          >
-          <nb-option value="15" (click)="setPerPage()"
-            >15</nb-option
-          >
-          <nb-option value="20" (click)="setPerPage()"
-            >20</nb-option
-          >
+          <nb-option value="5">5</nb-option>
+          <nb-option value="10">10</nb-option>
+          <nb-option value="15">15</nb-option>
+          <nb-option value="20" >20</nb-option>
         </nb-select>
       </div>
     </div>
@@ -39,7 +33,9 @@
     <ng-container *ngIf="itemsLength === 0; else showItems">
       <p *ngIf="filter == 'all'">Empty Todo. Please add some Todos</p>
       <p *ngIf="filter == 'active'">Empty Active Todo. Please add some Todos</p>
-      <p *ngIf="filter == 'completed'">Empty completed Todo. Please complete some Todos</p>
+      <p *ngIf="filter == 'completed'">
+        Empty completed Todo. Please complete some Todos
+      </p>
     </ng-container>
 
     <ng-template #showItems>
@@ -51,7 +47,11 @@
           todo-item
           [colorHighlight]="color"
           defaultColor=""
-          *ngFor="let itemsEl of items; let i = index; trackBy: trackById"
+          *ngFor="
+            let itemsEl of items | slice : 0 : setPerList;
+            let i = index;
+            trackBy: trackById
+          "
           [items]="itemsEl"
           [index]="i"
           [isEditing]="editingId === itemsEl.id"
