@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
-import { map } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { animationList } from '../assets/animation-list';
 
 import { ItemFilters } from '../item-filter.enum';
@@ -24,7 +24,7 @@ export class ItemListComponent implements OnInit {
   filter = 'all';
   loading: boolean = true;
   selectedItem = '';
-  setPerList: number = 5;
+  setPerList: any = '5';
   // colorHighlight var
   color = '';
 
@@ -109,11 +109,6 @@ export class ItemListComponent implements OnInit {
   changeFilter(filter: string) {
     this.filter = filter;
     this.fetchItems();
-  }
-
-  setPerPage() {
-    const value = this.setPerList;
-    this.itemsService.perNumPage(value);
   }
 
   addHighlightColor() {
