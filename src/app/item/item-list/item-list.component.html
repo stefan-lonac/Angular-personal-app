@@ -1,10 +1,9 @@
-
 <!-- TODO Preuredjivanje liste -->
 
 <nb-card [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
   <nb-card-body>
     <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
-      <h2>Todo list</h2>
+      <h2>Todo list - {{ itemsLength }}</h2>
 
       <div>
         <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
@@ -20,49 +19,55 @@
           >
         </nb-select>
       </div>
+
+      <div>
+        <nb-select placeholder="Item per page" [(selected)]="setPerList">
+          <nb-option value="5" (click)="setPerPage()">5</nb-option>
+          <nb-option value="10" (click)="setPerPage()"
+            >10</nb-option
+          >
+          <nb-option value="15" (click)="setPerPage()"
+            >15</nb-option
+          >
+          <nb-option value="20" (click)="setPerPage()"
+            >20</nb-option
+          >
+        </nb-select>
+      </div>
     </div>
+
     <ng-container *ngIf="itemsLength === 0; else showItems">
-      <p>Empty Todo. Please add some Todos</p>
+      <p *ngIf="filter == 'all'">Empty Todo. Please add some Todos</p>
+      <p *ngIf="filter == 'active'">Empty Active Todo. Please add some Todos</p>
+      <p *ngIf="filter == 'completed'">Empty completed Todo. Please complete some Todos</p>
     </ng-container>
 
     <ng-template #showItems>
-      <table equalColumnsWidth>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Controls</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr
-            class="fw-normal"
-            todo-item
-            [colorHighlight]="color"
-            defaultColor=""
-            *ngFor="let itemsEl of items; let i = index; trackBy: trackById"
-            [items]="itemsEl"
-            [index]="i"
-            [isEditing]="editingId === itemsEl.id"
-            (setEditModeId)="setEditId($event)"
-            [@inOutAnimation]
-          ></tr>
-        </tbody>
-
-        <tbody></tbody>
-      </table>
-
-      <nb-radio-group fxLayout="row" fxLayoutAlign="center center">
-        <nb-radio (click)="changeFilter(ItemFilters.all)" checked>All</nb-radio>
-        <nb-radio (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
-        <nb-radio (click)="changeFilter(ItemFilters.completed)"
-          >Completed</nb-radio
-        >
-      </nb-radio-group>
+      <ul class="list-todo">
+        <li
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          class="fw-normal ptb-20"
+          todo-item
+          [colorHighlight]="color"
+          defaultColor=""
+          *ngFor="let itemsEl of items; let i = index; trackBy: trackById"
+          [items]="itemsEl"
+          [index]="i"
+          [isEditing]="editingId === itemsEl.id"
+          (setEditModeId)="setEditId($event)"
+          [@inOutAnimation]
+        ></li>
+      </ul>
     </ng-template>
+
+    <nb-radio-group fxLayout="row" fxLayoutAlign="center center">
+      <nb-radio (click)="changeFilter(ItemFilters.all)" checked>All</nb-radio>
+      <nb-radio (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
+      <nb-radio (click)="changeFilter(ItemFilters.completed)"
+        >Completed</nb-radio
+      >
+    </nb-radio-group>
 
     <div class="add-todo">
       <div class="title-input">

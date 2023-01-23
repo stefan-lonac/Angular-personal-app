@@ -4,19 +4,21 @@
 
     <nb-card class="box-shadow">
       <nb-card-body class="profile-info">
-        <img 
-          [src]="user?.photoURL === undefined || null ? defaultImg : user?.photoURL"
+        <img
+          [src]="
+            user?.photoURL === undefined || null ? defaultImg : user?.photoURL
+          "
           alt="avatar"
           class="rounded-circle img-fluid"
           style="width: 150px"
         />
         <h2 class="my-3">
-          {{ user?.displayName | emptyText }}
+          {{ user?.displayName || emailName | emptyText }}
         </h2>
-        <p class="text-muted mb-1">
+        <p class="mb-1">
           {{ user?.role | emptyText }}
         </p>
-        <p class="text-muted mb-4">
+        <p class="mb-4">
           {{ user?.location | emptyText }}
         </p>
       </nb-card-body>
@@ -33,14 +35,16 @@
               <ng-container *ngIf="editMode">
                 <input
                   nbInput
+
+                  
                   class="edit"
                   type="text"
                   formControlName="displayName"
                 />
               </ng-container>
 
-              <p *ngIf="!editMode" class="text-muted mb-0">
-                {{ user?.displayName | emptyText }}
+              <p *ngIf="!editMode" class="mb-0">
+                {{ user?.displayName || emailName | emptyText }} 
               </p>
             </div>
           </div>
@@ -60,7 +64,7 @@
                 />
               </ng-container>
 
-              <p *ngIf="!editMode" class="text-muted mb-0">
+              <p *ngIf="!editMode" class="mb-0">
                 {{ user?.role | emptyText }}
               </p>
             </div>
@@ -81,7 +85,7 @@
                 />
               </ng-container>
 
-              <p *ngIf="!editMode" class="text-muted mb-0">
+              <p *ngIf="!editMode" class="mb-0">
                 {{ user?.location | emptyText }}
               </p>
             </div>
@@ -93,7 +97,7 @@
               <p class="mb-0">Email</p>
             </div>
             <div class="col-sm-9">
-              <p class="text-muted mb-0">{{ user?.email | emptyText }}</p>
+              <p class="mb-0">{{ user?.email | emptyText }}</p>
             </div>
           </div>
           <hr />
@@ -103,7 +107,7 @@
               <p class="mb-0">ID</p>
             </div>
             <div class="col-sm-9">
-              <p class="text-muted mb-0">{{ user.uid }}</p>
+              <p class="mb-0">{{ user.uid }}</p>
             </div>
           </div>
         </nb-card-body>
@@ -127,6 +131,17 @@
 
           <button *ngIf="editMode" nbButton status="success" type="submit">
             Save
+          </button>
+
+          <button
+            *ngIf="editMode"
+            nbButton
+            status="danger"
+            type="button"
+            (click)="cancelEdit()"
+            style="margin-left: 10px"
+          >
+            Cancel
           </button>
         </div>
 

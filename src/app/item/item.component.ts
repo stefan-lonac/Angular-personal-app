@@ -19,7 +19,11 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import {
+  NbDialogService,
+  NbGlobalLogicalPosition,
+  NbToastrService,
+} from '@nebular/theme';
 
 @Component({
   selector: '[todo-item]',
@@ -45,7 +49,7 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private itemsService: ItemsSevice,
-    private toastr: ToastrService,
+    private nbToastr: NbToastrService,
     private router: Router,
     private dialogNbService: NbDialogService
   ) {}
@@ -68,13 +72,17 @@ export class ItemComponent implements OnInit {
 
     // Open Material Dialog and choose if you wont to delete or not
     dialogRef.onClose.subscribe((data) => {
-      console.log(data);
-
       if (this.itemCurrent.id_main && data) {
         // Afer delete show popup with message
-        this.toastr.success(
-          'Remove successfully!',
-          'Item - ' + this.itemCurrent.title
+        this.nbToastr.show(
+          `Item - ${this.itemCurrent.title}`,
+          `Remove successfully!`,
+          {
+            status: 'success',
+            position: NbGlobalLogicalPosition.BOTTOM_END,
+            limit: 3,
+            duration: 2000,
+          }
         );
         this.itemsService.delete(this.itemCurrent.id_main);
       }
@@ -91,7 +99,7 @@ export class ItemComponent implements OnInit {
       this.itemsService
         .update(this.itemCurrent.id_main, data)
         .then(() => {})
-        .catch((err) => console.log(err));
+        .catch((err) => err);
     }
   }
 
@@ -101,11 +109,11 @@ export class ItemComponent implements OnInit {
       this.setEdittingMode.emit(this.items.id);
 
       // Show popup after Start Edit Mode Item
-      this.toastr.info('Hit Enter if you wont to save changes', 'Edit mode', {
-        timeOut: 3000,
-        extendedTimeOut: 1000,
-        progressBar: true,
-        tapToDismiss: true,
+      this.nbToastr.show(`Edit Mode`, `Hit Enter if you wont to save changes`, {
+        status: 'info',
+        position: NbGlobalLogicalPosition.BOTTOM_END,
+        limit: 3,
+        duration: 3500,
       });
     } else {
       this.setEdittingMode.emit(null);
@@ -126,7 +134,12 @@ export class ItemComponent implements OnInit {
 
     if (this.itemCurrent.id_main) {
       // Show popup after edit Item
-      this.toastr.info('Edited!', 'Item - ' + data.title);
+      this.nbToastr.show(`Item - ${data.title}`, `Edited!`, {
+        status: 'success',
+        position: NbGlobalLogicalPosition.BOTTOM_END,
+        limit: 3,
+        duration: 2000,
+      });
       this.itemsService.update(this.itemCurrent.id_main, data);
     }
   }

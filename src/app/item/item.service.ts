@@ -18,6 +18,7 @@ export class ItemsSevice {
   items: Items[];
   private dbpath = '/item';
   itemsRef: AngularFirestoreCollection<Items>;
+  perPage: number = 5;
 
   constructor(
     private authService: AuthService,
@@ -54,5 +55,10 @@ export class ItemsSevice {
 
   view(id: string) {
     return this.itemsRef.doc(id);
+  }
+
+  perNumPage(value: number) {
+    this.perPage = value;
+    console.log(this.perPage);
   }
 }

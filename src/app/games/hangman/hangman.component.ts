@@ -5,10 +5,12 @@ import { Component, OnChanges, OnInit } from '@angular/core';
   templateUrl: './hangman.component.html',
   styleUrls: ['./hangman.component.scss'],
 })
+
+// TODO keyboard click, voice, qwerty alphabet and dvorak keyboard
 export class HangmanComponent implements OnInit, OnChanges {
   clickedLetters: string[] = [];
   numberOfmisses: number = 6;
-  success: boolean;
+  gameStatus: boolean | undefined;
   letters: string = 'abcdefghijklmnopqrstuvwxyz';
   letter: string[];
   question: any;
@@ -47,8 +49,6 @@ export class HangmanComponent implements OnInit, OnChanges {
     this.letter = this.letters.split('');
     this.randomWord;
     this.hiddenQuestion;
-
-    console.log(this.question);
   }
 
   ngOnChanges(): void {}
@@ -70,14 +70,23 @@ export class HangmanComponent implements OnInit, OnChanges {
     this.numOfMisses;
   }
 
+  public newGame(): void {
+    this.randomWord;
+    this.clickedLetters = [];
+    this.numberOfmisses = 6;
+    this.gameStatus = undefined;
+    this.hiddenQuestion;
+  }
+
   private get numOfMisses() {
-    if (this.displayWord === this.question.join('') && this.success !== false) {
-      return (this.success = true);
+    if (this.displayWord === this.question.join('')) {
+      return (this.gameStatus = true), this.disableButtons;
     } else if (this.numberOfmisses <= 0) {
       return (
         (this.numberOfmisses = 0),
-        (this.success = false),
-        (this.displayWord = this.question.join(''))
+        (this.gameStatus = false),
+        (this.displayWord = this.question.join('')),
+        this.disableButtons
       );
     }
     return;
@@ -96,9 +105,8 @@ export class HangmanComponent implements OnInit, OnChanges {
     return (this.displayWord = censure);
   }
 
-  // private get disableButtonsEndGame() {
-  //   return this.success !== undefined
-  //     ? (this.clickedLetters = this.letters.split(''))
-  //     : this.success;
-  // }
+  private get disableButtons() {
+    this.clickedLetters = this.letters.split('');
+    return this.clickedLetters;
+  }
 }

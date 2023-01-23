@@ -19,7 +19,6 @@ import { ItemComponent } from './item/item.component';
 import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemsSevice } from './item/item.service';
 import { HeaderComponent } from './header/header.component';
-import { SidebarComponent } from './header/sidebar/sidebar.component';
 import { HeaderService } from './header/header.service';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
@@ -59,6 +58,11 @@ import {
   NbContextMenuModule,
   NbSidebarModule,
   NbButtonGroupModule,
+  NbListPageTrackerDirective,
+  NbListModule,
+  NbIconModule,
+  NbToastrService,
+  NbToastrModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -85,7 +89,6 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     LengthClassDirective,
     EmptyTextPipe,
     HangmanComponent,
-    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +111,7 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     NbMenuModule.forRoot(),
     NbDialogModule.forRoot(),
     NbSidebarModule.forRoot(),
+    NbToastrModule.forRoot(),
     NbLayoutModule,
     NbEvaIconsModule,
     NbCardModule,
@@ -122,6 +126,9 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     NbSpinnerModule,
     NbContextMenuModule,
     NbButtonGroupModule,
+    NbListModule,
+    NbIconModule,
+    NbEvaIconsModule,
   ],
   providers: [
     HeaderService,
@@ -134,6 +141,8 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     NbRadioComponent,
     NbCheckboxComponent,
     NbUserComponent,
+    NbListPageTrackerDirective,
+    NbToastrService,
   ],
   bootstrap: [AppComponent],
 })

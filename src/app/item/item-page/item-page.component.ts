@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 import { map } from 'rxjs';
 import { ItemsSevice } from 'src/app/item/item.service';
 import { Items } from '../item.model';
+import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'item',
@@ -22,7 +23,8 @@ export class ItemPageComponent implements OnInit {
     private itemsService: ItemsSevice,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private nbToastr: NbToastrService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -56,16 +58,20 @@ export class ItemPageComponent implements OnInit {
         description: this.itemForm.value.description,
         done: this.itemForm.value.done,
       };
-      // Show popup after edit Item
-      this.toastr.success('Item edited successfully!', '', {
-        timeOut: 3000,
-        extendedTimeOut: 1000,
-        progressBar: true,
-        tapToDismiss: true,
-      });
       this.item = this.itemForm.value;
       this.itemsService.update(this.itemId, dataItem);
       this.editMode = false;
+      // Show popup after edit Item
+      this.nbToastr.show(
+        `Item - ${dataItem.title}`,
+        `Item edited successfully!`,
+        {
+          status: 'success',
+          position: NbGlobalLogicalPosition.BOTTOM_END,
+          limit: 3,
+          duration: 2000,
+        }
+      );
     }
   }
 
@@ -81,6 +87,13 @@ export class ItemPageComponent implements OnInit {
 
   toggleChecked(checked: boolean) {
     this.checked = checked;
-    console.log(checked);
+  }
+
+  cancelEdit() {
+    this.editMode = false;
+  }
+
+  back() {
+    this.location.back();
   }
 }

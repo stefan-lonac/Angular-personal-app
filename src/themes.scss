@@ -7,16 +7,11 @@
 
 $nb-themes: nb-register-theme(
   (
-    // add your variables here like:
-    // color-primary-100: #f2f6ff,
-    // color-primary-200: #d9e4ff,
-    // color-primary-300: #a6c1ff,
-    // color-primary-400: #598bff,
-    // color-primary-500: #3366ff,
-    // color-primary-600: #274bdb,
-    // color-primary-700: #1a34b8,
-    // color-primary-800: #102694,
-    // color-primary-900: #091c7a,
+    // Global Custom
+    href-color: $darkLight,
+    href-color-hover: $blueEdit,
+    text-basic-color: $grayColor,
+    input-color-edit: $darkLight,
 
     capitalize-text-button: capitalize,
     input-medium-text-font-weight: 400,
@@ -33,8 +28,12 @@ $nb-themes: nb-register-theme(
 
 $nb-themes: nb-register-theme(
   (
-    // some styles we changed
-    text-basic-color: color-basic-800,
+    // Global Custom
+    href-color: $bgColor,
+    href-color-hover: $blueEdit,
+    text-basic-color: $bgColor,
+    input-color-edit: $bgColor,
+
     text-disabled-color: color-basic-600
   ),
   dark,
