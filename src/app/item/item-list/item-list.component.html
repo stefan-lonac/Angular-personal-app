@@ -5,7 +5,7 @@
     <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
       <h2>Todo list - {{ itemsLength }}</h2>
 
-      <div>
+      <!-- <div>
         <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
           <nb-option value="" (click)="addHighlightColor()">None</nb-option>
           <nb-option value="#cfe2ff" (click)="addHighlightColor()"
@@ -18,7 +18,7 @@
             >Green</nb-option
           >
         </nb-select>
-      </div>
+      </div> -->
 
       <div>
         <nb-select placeholder="Item per page" [(selected)]="setPerList">
@@ -45,8 +45,6 @@
           fxLayoutAlign="space-between center"
           class="fw-normal ptb-20"
           todo-item
-          [colorHighlight]="color"
-          defaultColor=""
           *ngFor="
             let itemsEl of items | slice : 0 : setPerList;
             let i = index;

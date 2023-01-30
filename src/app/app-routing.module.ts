@@ -19,19 +19,16 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    // data: { animation: 'Login' },
   },
 
   {
     path: 'sign-up',
     component: SignUpComponent,
-    // data: { animation: 'SignUp' },
   },
 
   {
     path: 'todos',
     component: ItemListComponent,
-    // data: { animation: 'ItemsList' },
     canActivate: [AuthGuard],
   },
   {
@@ -42,14 +39,12 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    // data: { animation: 'Profile' },
     canActivate: [AuthGuard],
   },
 
   {
     path: 'weather',
     component: WeatherComponent,
-    // data: { animation: 'Weather' },
     canActivate: [AuthGuard],
   },
 
