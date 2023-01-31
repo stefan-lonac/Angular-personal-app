@@ -10,8 +10,6 @@ import { AuthService } from './auth.service';
   animations: [slideInAnimation],
 })
 export class AppComponent {
-  title = 'Stefan App';
-
   constructor(
     private contexts: ChildrenOutletContexts,
     public authService: AuthService,

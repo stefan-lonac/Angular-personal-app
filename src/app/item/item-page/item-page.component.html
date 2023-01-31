@@ -1,145 +1,142 @@
-<section>
-  <button nbButton status="info" (click)="back()">
-    <nb-icon icon="arrow-back-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
-  </button>
+<button class="back-button" nbButton status="info" (click)="back()">
+  <nb-icon
+    icon="arrow-back-outline"
+    [options]="{ animation: { type: 'pulse' } }"
+  ></nb-icon>
+</button>
 
-  <div class="container py-5">
-    <h1>Item details</h1>
+<div class="container py-5">
+  <h1>Item details</h1>
 
-    <div class="row" *ngIf="item">
-      <div class="col-lg-8">
-        <form [formGroup]="itemForm" (ngSubmit)="onUpdate()">
-          <div class="card mb-4 box-shadow">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Item Name</p>
-                </div>
-                <div class="col-sm-9">
-                  <ng-container *ngIf="editMode">
-                    <input class="edit" type="text" formControlName="title" />
-                  </ng-container>
+  <ng-container *ngIf="item">
+    <form [formGroup]="itemForm" (ngSubmit)="onUpdate()">
+      <nb-card class="box-shadow">
+        <nb-card-body>
+          <div>
+            <h3 class="">Item Name</h3>
 
-                  <p *ngIf="!editMode" class="text-muted mb-0">
-                    {{ item.title }}
-                  </p>
-                </div>
-              </div>
-              <hr />
+            <div>
+              <ng-container *ngIf="editMode">
+                <input
+                  class="edit"
+                  type="text"
+                  nbInput
+                  formControlName="title"
+                />
+              </ng-container>
 
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Description</p>
-                </div>
-                <div class="col-sm-9">
-                  <ng-container *ngIf="editMode">
-                    <textarea
-                      class="edit"
-                      type="text"
-                      formControlName="description"
-                      rows="4"
-                      cols="50"
-                    ></textarea>
-                  </ng-container>
+              <p *ngIf="!editMode" class="text-muted">
+                {{ item.title }}
+              </p>
+            </div>
+          </div>
 
-                  <p *ngIf="!editMode" class="text-muted mb-0">
-                    {{ item.description }}
-                  </p>
-                </div>
-              </div>
-              <hr />
+          <hr />
 
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Status</p>
-                </div>
-                <div class="col-sm-9">
-                  <ng-container *ngIf="editMode">
-                    <nb-checkbox
-                      (checkedChange)="toggleChecked($event)"
-                      [checked]="item.done"
-                      [status]="checked ? 'success' : 'primary'"
-                      [ngClass]="item.done ? 'done' : 'not-done'"
-                      formControlName="done"
-                    >
-                      <span
-                        class="badge text-bg-primary"
-                        [ngClass]="checked ? 'done' : 'not-done'"
-                        >{{ checked ? "Done" : "Not Done" }}</span
-                      >
-                    </nb-checkbox>
-                  </ng-container>
+          <div>
+            <h3 class="">Description</h3>
+            <div>
+              <ng-container *ngIf="editMode">
+                <textarea
+                  class="edit"
+                  type="text"
+                  nbInput
+                  formControlName="description"
+                  rows="4"
+                  cols="50"
+                ></textarea>
+              </ng-container>
 
-                  <p
-                    *ngIf="!editMode"
-                    class="mb-0 badge text-bg-primary"
-                    [ngClass]="item.done ? 'done' : 'not-done'"
+              <p *ngIf="!editMode" class="text-muted">
+                {{ item.description }}
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <h3 class="">Status</h3>
+
+            <div>
+              <ng-container *ngIf="editMode">
+                <nb-checkbox
+                  (checkedChange)="toggleChecked($event)"
+                  [checked]="item.done"
+                  [status]="checked ? 'success' : 'primary'"
+                  [ngClass]="item.done ? 'done' : 'not-done'"
+                  formControlName="done"
+                >
+                  <span
+                    class="badge text-bg-primary"
+                    [ngClass]="checked ? 'done' : 'not-done'"
+                    >{{ checked ? "Done" : "Not Done" }}</span
                   >
-                    {{ !item.done ? "Not done" : "Done" }}
-                  </p>
-                </div>
-              </div>
-              <hr />
+                </nb-checkbox>
+              </ng-container>
 
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Date</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">
-                    {{ item.date | date : "short" }}
-                  </p>
-                </div>
-              </div>
-              <hr />
-
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">ID</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ item.id }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="controls-btn d-flex align-items-center justify-content-between"
-          >
-            <div class="edit-save-buttons" fxLayout="row" fxLayoutAlign="space-between center">
-              <button
+              <p
                 *ngIf="!editMode"
-                nbButton
-                status="primary"
-                type="button"
-                (click)="onEditMode()"
+                class="badge text-bg-primary"
+                [ngClass]="item.done ? 'done' : 'not-done'"
               >
-                Edit
-              </button>
-
-              <button
-                *ngIf="editMode"
-                nbButton
-                status="success"
-                type="submit"
-              >
-                Save
-              </button>
-
-              <button
-                *ngIf="editMode"
-                nbButton
-                status="danger"
-                type="button"
-                (click)="cancelEdit()"
-              >
-                Cancel
-              </button>
+                {{ !item.done ? "Not done" : "Done" }}
+              </p>
             </div>
           </div>
-        </form>
+          <hr />
+
+          <div>
+            <h3 class="">Date</h3>
+            <div>
+              <p class="text-muted">
+                {{ item.date | date : "short" }}
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <div>
+            <h3 class="">ID</h3>
+            <div>
+              <p class="text-muted">{{ item.id }}</p>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+
+      <div
+        class="controls-btn d-flex align-items-center justify-content-between"
+      >
+        <div
+          class="edit-save-buttons"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <button
+            *ngIf="!editMode"
+            nbButton
+            status="primary"
+            type="button"
+            (click)="onEditMode()"
+          >
+            Edit
+          </button>
+
+          <button *ngIf="editMode" nbButton status="success" type="submit">
+            Save
+          </button>
+
+          <button
+            *ngIf="editMode"
+            nbButton
+            status="danger"
+            type="button"
+            (click)="cancelEdit()"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </form>
+  </ng-container>
+</div>

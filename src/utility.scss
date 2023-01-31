@@ -6,8 +6,17 @@ h2 {
   color: nb-theme(text-basic-color);
 }
 
+h3 {
+  color: $darkLight;
+  margin: 5px 0px;
+}
+
 .mb-10 {
   margin-bottom: 10px;
+}
+
+.mb-0 {
+  margin-bottom: 0;
 }
 
 .ml-15 {
@@ -20,6 +29,10 @@ h2 {
 
 .ptb-20 {
   padding: 20px;
+}
+
+.rounded-img {
+  border-radius: 50%;
 }
 
 .main {
@@ -48,15 +61,22 @@ textarea {
   border-radius: 0.3rem;
 }
 
-nb-checkbox {
-  .badge {
-    vertical-align: middle;
-    cursor: pointer;
-    &.done {
-      background-color: $greenDone !important;
-    }
+.badge {
+  vertical-align: middle;
+  color: $white;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: normal;
+  &.done {
+    background-color: $greenDone;
+  }
+  &.not-done {
+    background-color: $blueEdit;
   }
 }
+
 button {
   &.nav-link {
     text-transform: capitalize;
@@ -64,5 +84,8 @@ button {
       background-color: $blueEdit;
       color: $white;
     }
+  }
+  &.back-button {
+    padding: 5px!important;
   }
 }

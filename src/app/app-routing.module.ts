@@ -19,6 +19,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    title: 'Login',
   },
 
   {
@@ -28,22 +29,27 @@ const routes: Routes = [
 
   {
     path: 'todos',
+    title: 'Todos',
     component: ItemListComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'todos',
-    children: [{ path: 'item/:id', component: ItemPageComponent }],
+    children: [
+      { path: 'item/:id', title: 'Item', component: ItemPageComponent },
+    ],
   },
 
   {
     path: 'profile',
+    title: 'Profile',
     component: ProfileComponent,
     canActivate: [AuthGuard],
   },
 
   {
     path: 'weather',
+    title: 'Weather',
     component: WeatherComponent,
     canActivate: [AuthGuard],
   },
@@ -52,7 +58,9 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    children: [{ path: 'hangman', component: HangmanComponent }],
+    children: [
+      { path: 'hangman', title: 'Hangman', component: HangmanComponent },
+    ],
   },
 
   { path: '**', redirectTo: 'todos', pathMatch: 'full' },

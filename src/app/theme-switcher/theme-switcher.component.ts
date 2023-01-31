@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -7,16 +7,17 @@ import { NbThemeService } from '@nebular/theme';
   styleUrls: ['./theme-switcher.component.scss'],
 })
 export class ThemeSwitcherComponent implements OnInit {
-  themeName?: string = 'default';
+  themeName: string = 'default';
   constructor(private NbThemeService: NbThemeService) {}
 
   ngOnInit(): void {
-    this.themeName = this.currentTheme;
     this.NbThemeService.changeTheme(this.currentTheme);
   }
 
-  public get currentTheme(): any {
-    return localStorage.getItem('theme')!;
+  public get currentTheme(): string {
+    return this.themeName !== null
+      ? this.themeName
+      : localStorage.getItem('theme')!;
   }
 
   public switchTheme() {

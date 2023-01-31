@@ -1,7 +1,6 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
 import { User } from '../login/user';
 
@@ -25,23 +24,14 @@ export class ProfileComponent implements OnInit, OnChanges {
     private nbToastr: NbToastrService
   ) {}
 
-  ngOnChanges(): void {
-    localStorage.setItem('user', JSON.stringify(this.authService.userData));
-  }
+  ngOnChanges(): void {}
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn) {
-      const userGet = JSON.parse(localStorage.getItem('user')!);
-      this.user = { ...userGet };
-
+      this.userGet;
+      this.formGet;
       const useEmailName = this.user.email.split(/@(?=[^@]*$)/);
       this.emailName = useEmailName[0];
-
-      this.profileForm = this.formBuilder.group({
-        displayName: [this.user.displayName || this.emailName],
-        role: [this.user.role],
-        location: [this.user.location],
-      });
     }
   }
 
@@ -72,15 +62,24 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   onEditMode() {
     this.editMode = true;
-
-    this.profileForm = this.formBuilder.group({
-      displayName: [this.user.displayName || this.emailName],
-      role: [this.user.role],
-      location: [this.user.location],
-    });
+    this.userGet;
+    this.formGet;
   }
 
   cancelEdit() {
     this.editMode = false;
+  }
+
+  private get formGet() {
+    return (this.profileForm = this.formBuilder.group({
+      displayName: [this.user.displayName || this.emailName],
+      role: [this.user.role],
+      location: [this.user.location],
+    }));
+  }
+
+  private get userGet() {
+    const userGet = JSON.parse(localStorage.getItem('user')!);
+    return (this.user = { ...userGet });
   }
 }

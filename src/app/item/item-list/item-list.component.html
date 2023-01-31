@@ -5,27 +5,12 @@
     <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
       <h2>Todo list - {{ itemsLength }}</h2>
 
-      <!-- <div>
-        <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
-          <nb-option value="" (click)="addHighlightColor()">None</nb-option>
-          <nb-option value="#cfe2ff" (click)="addHighlightColor()"
-            >Blue</nb-option
-          >
-          <nb-option value="#00000013" (click)="addHighlightColor()"
-            >Gray</nb-option
-          >
-          <nb-option value="#bcd0c7" (click)="addHighlightColor()"
-            >Green</nb-option
-          >
-        </nb-select>
-      </div> -->
-
       <div>
         <nb-select placeholder="Item per page" [(selected)]="setPerList">
           <nb-option value="5">5</nb-option>
           <nb-option value="10">10</nb-option>
           <nb-option value="15">15</nb-option>
-          <nb-option value="20" >20</nb-option>
+          <nb-option value="20">20</nb-option>
         </nb-select>
       </div>
     </div>

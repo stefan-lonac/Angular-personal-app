@@ -1,4 +1,4 @@
-<ng-container class="" *ngIf="authService.userData as user">
+<ng-container *ngIf="authService.userData as user">
   <section>
     <h1>User Profile</h1>
 
@@ -9,16 +9,16 @@
             user?.photoURL === undefined || null ? defaultImg : user?.photoURL
           "
           alt="avatar"
-          class="rounded-circle img-fluid"
+          class="rounded-img"
           style="width: 150px"
         />
-        <h2 class="my-3">
+        <h2 class="mb-0">
           {{ user?.displayName || emailName | emptyText }}
         </h2>
-        <p class="mb-1">
+        <p class="mb-0">
           {{ user?.role | emptyText }}
         </p>
-        <p class="mb-4">
+        <p class="mb-0">
           {{ user?.location | emptyText }}
         </p>
       </nb-card-body>
@@ -27,34 +27,29 @@
     <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
       <nb-card class="box-shadow">
         <nb-card-body>
-          <div class="row">
-            <div class="col-sm-3">
-              <p class="mb-0">Full Name</p>
-            </div>
-            <div class="col-sm-9">
+          <div>
+            <h3>Full Name</h3>
+            <div>
               <ng-container *ngIf="editMode">
                 <input
                   nbInput
-
-                  
                   class="edit"
                   type="text"
                   formControlName="displayName"
                 />
               </ng-container>
 
-              <p *ngIf="!editMode" class="mb-0">
-                {{ user?.displayName || emailName | emptyText }} 
+              <p *ngIf="!editMode">
+                {{ user?.displayName || emailName | emptyText }}
               </p>
             </div>
           </div>
           <hr />
 
-          <div class="row">
-            <div class="col-sm-3">
-              <p class="mb-0">Role</p>
-            </div>
-            <div class="col-sm-9">
+          <div>
+            <h3>Role</h3>
+
+            <div>
               <ng-container *ngIf="editMode">
                 <input
                   nbInput
@@ -64,18 +59,17 @@
                 />
               </ng-container>
 
-              <p *ngIf="!editMode" class="mb-0">
+              <p *ngIf="!editMode">
                 {{ user?.role | emptyText }}
               </p>
             </div>
           </div>
           <hr />
 
-          <div class="row">
-            <div class="col-sm-3">
-              <p class="mb-0">Location</p>
-            </div>
-            <div class="col-sm-9">
+          <div>
+            <h3>Location</h3>
+
+            <div>
               <ng-container *ngIf="editMode">
                 <input
                   nbInput
@@ -85,29 +79,27 @@
                 />
               </ng-container>
 
-              <p *ngIf="!editMode" class="mb-0">
+              <p *ngIf="!editMode">
                 {{ user?.location | emptyText }}
               </p>
             </div>
           </div>
           <hr />
 
-          <div class="row">
-            <div class="col-sm-3">
-              <p class="mb-0">Email</p>
-            </div>
-            <div class="col-sm-9">
-              <p class="mb-0">{{ user?.email | emptyText }}</p>
+          <div>
+            <h3>Email</h3>
+
+            <div>
+              <p>{{ user?.email | emptyText }}</p>
             </div>
           </div>
           <hr />
 
-          <div class="row">
-            <div class="col-sm-3">
-              <p class="mb-0">ID</p>
-            </div>
-            <div class="col-sm-9">
-              <p class="mb-0">{{ user.uid }}</p>
+          <div>
+            <h3>ID</h3>
+
+            <div>
+              <p>{{ user.uid }}</p>
             </div>
           </div>
         </nb-card-body>
@@ -115,7 +107,7 @@
 
       <div
         class="controls-btn"
-        fxLayout="row"
+        fxLayout=""
         fxLayoutAlign="space-between center"
       >
         <div class="edit-save-buttons">

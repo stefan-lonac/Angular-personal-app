@@ -21,6 +21,9 @@ $nb-themes: nb-register-theme(
     checkbox-success-hover-checked-border-color: $greenDone,
     checkbox-primary-checked-background-color: $blueEdit,
     checkbox-primary-checked-border-color: $blueEdit,
+    button-filled-success-background-color: $greenDone,
+    button-filled-success-border-color: $greenDone,
+    button-filled-success-hover-background-color: $greenDoneHover,
   ),
   default,
   default
@@ -34,6 +37,9 @@ $nb-themes: nb-register-theme(
     text-basic-color: $bgColor,
     input-color-edit: $bgColor,
 
+    button-filled-success-background-color: $greenDone,
+    button-filled-success-border-color: $greenDone,
+    button-filled-success-hover-background-color: $greenDoneHover,
     text-disabled-color: color-basic-600
   ),
   dark,
