@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ChildrenOutletContexts, Router } from '@angular/router';
 import { slideInAnimation } from './animations';
-import { AuthService } from './auth.service';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',

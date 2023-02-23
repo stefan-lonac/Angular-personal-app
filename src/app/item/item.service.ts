@@ -6,7 +6,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth/auth.service';
 import { Items } from './item.model';
 
 @Injectable({

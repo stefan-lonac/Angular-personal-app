@@ -1,8 +1,8 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
-import { AuthService } from '../auth.service';
-import { User } from '../login/user';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/login/user';
 
 @Component({
   selector: 'profile',
@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn) {
+      // console.log(this.user.photoURL);
       this.userGet;
       this.formGet;
       const useEmailName = this.user.email.split(/@(?=[^@]*$)/);

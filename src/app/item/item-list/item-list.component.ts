@@ -21,12 +21,13 @@ export class ItemListComponent implements OnInit {
   title = '';
   description = '';
   ItemFilters = ItemFilters;
-  filter = 'all';
+  filter: string = 'all';
   loading: boolean = true;
   selectedItem = '';
-  setPerList: any = '5';
-  // colorHighlight var
-  color = '';
+  searchText: string = '';
+
+  // Slice variable
+  // setPerList: any = '5';
 
   fetchItems$ = this.itemsService
     .getAll()
@@ -52,8 +53,12 @@ export class ItemListComponent implements OnInit {
   fetchItems() {
     this.fetchItems$.subscribe((data: Items[]) => {
       this.loading = false;
-
       switch (this.filter) {
+        case ItemFilters.all: {
+          this.items = data;
+          this.itemsLength = this.items.length;
+          break;
+        }
         case ItemFilters.active: {
           this.items = data.filter((item) => !item.done);
           this.itemsLength = this.items.length;
@@ -61,11 +66,6 @@ export class ItemListComponent implements OnInit {
         }
         case ItemFilters.completed: {
           this.items = data.filter((item) => item.done);
-          this.itemsLength = this.items.length;
-          break;
-        }
-        default: {
-          this.items = data;
           this.itemsLength = this.items.length;
           break;
         }
@@ -109,15 +109,5 @@ export class ItemListComponent implements OnInit {
   changeFilter(filter: string) {
     this.filter = filter;
     this.fetchItems();
-  }
-
-  addHighlightColor() {
-    this.color = this.selectedItem;
-
-    const data = {
-      color: this.color,
-      cheched: this.selectedItem,
-    };
-    localStorage.setItem('table-highlight', JSON.stringify(data));
   }
 }

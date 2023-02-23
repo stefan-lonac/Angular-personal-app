@@ -20,18 +20,16 @@ import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemsSevice } from './item/item.service';
 import { HeaderComponent } from './header/header.component';
 import { HeaderService } from './header/header.service';
-import { LoginComponent } from './login/login.component';
-import { AuthService } from './auth.service';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthService } from './auth/auth.service';
 import { ProfileComponent } from './profile/profile.component';
 import { SignoutDialogComponent } from './profile/signout-dialog/signout-dialog.component';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 import { DeleteDialogComponent } from './item/delete-dialog/delete-dialog.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { WeatherComponent } from './weather/weather.component';
 import { ApixuService } from './weather/apixu.service';
 import { TemperaturePipeClass } from './weather/pipe/temperature-class.pipe';
-import { LengthPipe } from './shared/pipe/length.pipe';
-import { HighlightDirective } from './shared/directive/highlight.directive';
 import { ItemPageComponent } from './item/item-page/item-page.component';
 import { LengthClassDirective } from './shared/directive/length-class.directive';
 import {
@@ -68,6 +66,9 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { EmptyTextPipe } from './shared/pipe/empty-text.pipe';
 import { HangmanComponent } from './games/hangman/hangman.component';
+import { LengthPipe } from './shared/pipe/length.pipe';
+import { DisableButton } from './item/shared/pipe/disable-button.pipe';
+import { SearchItemsPipe } from './item/shared/pipe/search-items.pipe';
 
 @NgModule({
   declarations: [
@@ -82,13 +83,14 @@ import { HangmanComponent } from './games/hangman/hangman.component';
     DeleteDialogComponent,
     SignUpComponent,
     WeatherComponent,
-    TemperaturePipeClass,
-    LengthPipe,
-    HighlightDirective,
     ItemPageComponent,
     LengthClassDirective,
-    EmptyTextPipe,
     HangmanComponent,
+    LengthPipe,
+    EmptyTextPipe,
+    TemperaturePipeClass,
+    DisableButton,
+    SearchItemsPipe,
   ],
   imports: [
     BrowserModule,

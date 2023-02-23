@@ -5,14 +5,23 @@
     <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
       <h2>Todo list - {{ itemsLength }}</h2>
 
-      <div>
+      <!-- TODO 1: slice select option for items -->
+      <!-- <div>
         <nb-select placeholder="Item per page" [(selected)]="setPerList">
           <nb-option value="5">5</nb-option>
           <nb-option value="10">10</nb-option>
           <nb-option value="15">15</nb-option>
           <nb-option value="20">20</nb-option>
         </nb-select>
-      </div>
+      </div> -->
+
+      <input
+        nbInput
+        [(ngModel)]="searchText"
+        type="text"
+        id="search-items"
+        placeholder="Search todo"
+      />
     </div>
 
     <ng-container *ngIf="itemsLength === 0; else showItems">
@@ -25,13 +34,15 @@
 
     <ng-template #showItems>
       <ul class="list-todo">
+        <!-- TODO 1: Create slice pipe items with search input "slice : 0 : setPerList" -->
         <li
           fxLayout="row"
           fxLayoutAlign="space-between center"
           class="fw-normal ptb-20"
           todo-item
           *ngFor="
-            let itemsEl of items | slice : 0 : setPerList;
+            let itemsEl of items
+              | searchItems : searchText
             let i = index;
             trackBy: trackById
           "
@@ -44,12 +55,10 @@
       </ul>
     </ng-template>
 
-    <nb-radio-group fxLayout="row" fxLayoutAlign="center center">
-      <nb-radio (click)="changeFilter(ItemFilters.all)" checked>All</nb-radio>
-      <nb-radio (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
-      <nb-radio (click)="changeFilter(ItemFilters.completed)"
-        >Completed</nb-radio
-      >
+    <nb-radio-group fxLayout="row" fxLayoutAlign="center center" [(ngModel)]="filter">
+      <nb-radio value="all" (click)="changeFilter(ItemFilters.all)">All</nb-radio>
+      <nb-radio value="active" (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
+      <nb-radio value="completed" (click)="changeFilter(ItemFilters.completed)">Completed</nb-radio>
     </nb-radio-group>
 
     <div class="add-todo">
@@ -98,7 +107,7 @@
         (click)="onAddItem()"
         nbButton
         status="success"
-        [disabled]="title === '' || title.length < 3 || title.length > 20"
+        [disabled]="title | disableBtn"
       >
         Add
       </button>
