@@ -6,7 +6,7 @@
       <nb-card-body class="profile-info">
         <img
           [src]="
-            user?.photoURL === undefined || null ? defaultImg : user?.photoURL
+            user?.photoURL === undefined || null || '' ? defaultImg : user?.photoURL
           "
           alt="avatar"
           class="rounded-img"
@@ -142,7 +142,7 @@
             type="button"
             nbButton
             status="danger"
-            (click)="authService.SignOut()"
+            (click)="authService.signOut()"
           >
             Logout
           </button>

@@ -8,7 +8,8 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { User } from './login/user';
-import { SignoutDialogComponent } from './profile/signout-dialog/signout-dialog.component';
+import { SignoutDialogComponent } from '../profile/signout-dialog/signout-dialog.component';
+import { NbDialogService } from '@nebular/theme';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
-    private matDialog: MatDialog
+    private dialogNbService: NbDialogService
   ) {
     if (this.isLoggedIn) {
       // Fetch user loggedin user ID
@@ -130,15 +131,14 @@ export class AuthService {
   }
 
   // Remove user from LocalStorage and signOut
-  SignOut() {
-    const dialogRef = this.matDialog.open(SignoutDialogComponent, {
-      width: '450px',
+  signOut() {
+    const dialogRef = this.dialogNbService.open(SignoutDialogComponent, {
+      closeOnBackdropClick: false,
     });
 
-    // Open Material Dialog and choose if you wont to signout or not
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+    // Open Nebular Dialog and choose if you wont to signout or not
+    dialogRef.onClose.subscribe((confirmed: boolean) => {
       if (confirmed) {
-        // SignOut
         localStorage.removeItem('user');
         this.router.navigate(['login']);
       }

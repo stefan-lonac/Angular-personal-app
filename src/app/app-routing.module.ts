@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HangmanComponent } from './games/hangman/hangman.component';
 import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemPageComponent } from './item/item-page/item-page.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './shared/guard/auth.guard';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { WeatherComponent } from './weather/weather.component';
 
 const routes: Routes = [

@@ -1,32 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NbDialogRef } from '@nebular/theme';
 
 @Component({
-  selector: 'signout-dialog',
   templateUrl: './signout-dialog.component.html',
   styleUrls: ['./signout-dialog.component.scss'],
 })
-export class SignoutDialogComponent implements OnInit {
+export class SignoutDialogComponent {
   message: string = 'Are You Sure?';
   confirmBtnTxt = 'Yes';
   cancelBtnTxt = 'Cancel';
-  //  TODO Change dialog from Material to Nebular
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<SignoutDialogComponent>
-  ) {
-    if (data) {
-      this.message = data.message || this.message;
-      if (data.buttonText) {
-        this.confirmBtnTxt = data.buttonText.ok || this.confirmBtnTxt;
-        this.cancelBtnTxt = data.buttonText.cancel || this.cancelBtnTxt;
-      }
-    }
+
+  constructor(private dialogNbRef: NbDialogRef<SignoutDialogComponent>) {}
+
+  onConfirmClick() {
+    this.dialogNbRef.close(true);
   }
 
-  ngOnInit(): void {}
-
-  onConfirmClick(): void {
-    this.dialogRef.close(true);
+  close() {
+    this.dialogNbRef.close();
   }
 }

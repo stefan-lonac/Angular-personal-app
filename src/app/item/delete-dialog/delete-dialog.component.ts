@@ -18,7 +18,6 @@ export class DeleteDialogComponent {
   submit(value: string) {
     value = this.title;
     this.dialogNbRef.close(value);
-    console.log('close dialog');
   }
 
   close() {
