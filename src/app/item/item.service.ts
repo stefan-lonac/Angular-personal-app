@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/compat/firestore';
 
 import { AuthService } from '../auth/auth.service';
-import { Items } from './item.model';
+import { Items } from './shared/model/item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +59,5 @@ export class ItemsSevice {
 
   perNumPage(value: number) {
     this.perPage = value;
-    console.log(this.perPage);
   }
 }

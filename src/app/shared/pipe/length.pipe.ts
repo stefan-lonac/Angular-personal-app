@@ -2,6 +2,7 @@ import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'length',
+  standalone: true,
 })
 export class LengthPipe implements PipeTransform {
   constructor(private el: ElementRef) {}

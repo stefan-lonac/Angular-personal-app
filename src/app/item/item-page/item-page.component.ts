@@ -1,16 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { map } from 'rxjs';
-import { ItemsSevice } from 'src/app/item/item.service';
-import { Items } from '../item.model';
-import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
+import { CommonModule, Location } from '@angular/common';
+import { map, Observable, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { Items } from '../shared/model/item.model';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbGlobalLogicalPosition,
+  NbIconModule,
+  NbSpinnerModule,
+  NbToastrService,
+} from '@nebular/theme';
+import { ItemsSevice } from '../item.service';
 
 @Component({
   selector: 'item',
   templateUrl: './item-page.component.html',
   styleUrls: ['./item-page.component.scss'],
+  standalone: true,
+  imports: [
+    NbButtonModule,
+    NbIconModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NbCardModule,
+    NbCheckboxModule,
+    NbSpinnerModule,
+    CommonModule,
+  ],
 })
 export class ItemPageComponent implements OnInit {
   item?: Items;
@@ -18,6 +42,8 @@ export class ItemPageComponent implements OnInit {
   editMode: boolean = false;
   itemForm: FormGroup;
   checked?: boolean;
+  loading: boolean = true;
+  items$: Observable<Items | undefined>;
 
   constructor(
     private itemsService: ItemsSevice,
@@ -30,18 +56,10 @@ export class ItemPageComponent implements OnInit {
   ngOnInit() {
     this.itemId = this.route.snapshot.paramMap.get('id');
     if (this.itemId) {
-      this.itemsService
+      this.items$ = this.itemsService
         .getAll()
-        .doc(this.itemId!)
-        .valueChanges()
-        .pipe(
-          map((values) => {
-            this.item = values;
-          })
-        )
-        .subscribe((data) => {
-          this.item == data;
-        });
+        .doc<Items>(this.itemId!)
+        .valueChanges();
 
       this.itemForm = this.formBuilder.group({
         title: [this.item?.title],

@@ -15,9 +15,7 @@ export class ThemeSwitcherComponent implements OnInit {
   }
 
   public get currentTheme(): string {
-    return this.themeName !== null
-      ? this.themeName
-      : localStorage.getItem('theme')!;
+    return (this.themeName = localStorage.getItem('theme')!);
   }
 
   public switchTheme() {

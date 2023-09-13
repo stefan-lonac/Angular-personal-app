@@ -10,25 +10,40 @@ import {
 
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ItemsSevice } from './item.service';
-import { Items } from './item.model';
-import { ToastrService } from 'ngx-toastr';
+import { Items } from './shared/model/item.model';
 import {
   faEye,
   faPenToSquare,
   faTrashCan,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
 import {
+  NbCheckboxModule,
   NbDialogService,
   NbGlobalLogicalPosition,
+  NbIconModule,
   NbToastrService,
 } from '@nebular/theme';
+import { Router } from '@angular/router';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommonModule } from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ApplicationRoutes } from '../consts/application-routes';
 
 @Component({
   selector: '[todo-item]',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
+  standalone: true,
+  imports: [
+    FlexLayoutModule,
+    NbCheckboxModule,
+    NbEvaIconsModule,
+    NbIconModule,
+    FontAwesomeModule,
+    CommonModule,
+  ],
 })
 export class ItemComponent implements OnInit {
   @Input() items: Items;
@@ -61,7 +76,11 @@ export class ItemComponent implements OnInit {
   }
 
   onView() {
-    this.router.navigate(['todos/item/', this.itemCurrent.id_main]);
+    this.router.navigate([
+      ApplicationRoutes.Todos._Base,
+      ApplicationRoutes.Todos.ItemDetails,
+      this.itemCurrent.id_main,
+    ]);
   }
 
   onDelete() {
@@ -70,10 +89,8 @@ export class ItemComponent implements OnInit {
       context: { title: this.items.title },
     });
 
-    // Open Material Dialog and choose if you wont to delete or not
     dialogRef.onClose.subscribe((data) => {
       if (this.itemCurrent.id_main && data) {
-        // Afer delete show popup with message
         this.nbToastr.show(
           `Item - ${this.itemCurrent.title}`,
           `Remove successfully!`,
@@ -108,7 +125,6 @@ export class ItemComponent implements OnInit {
     if (this.isEdit) {
       this.setEdittingMode.emit(this.items.id);
 
-      // Show popup after Start Edit Mode Item
       this.nbToastr.show(`Edit Mode`, `Hit Enter if you wont to save changes`, {
         status: 'info',
         position: NbGlobalLogicalPosition.BOTTOM_END,
@@ -126,14 +142,12 @@ export class ItemComponent implements OnInit {
   }
 
   onUpdateItem(): void {
-    // After edit Item input field set to text
     this.setEdittingMode.emit(null);
     const data = {
       title: this.changeTitle,
     };
 
     if (this.itemCurrent.id_main) {
-      // Show popup after edit Item
       this.nbToastr.show(`Item - ${data.title}`, `Edited!`, {
         status: 'success',
         position: NbGlobalLogicalPosition.BOTTOM_END,

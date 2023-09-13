@@ -1,0 +1,36 @@
+<nb-card size="small">
+    <nb-card-body>
+      <nb-select placeholder="Select Showcase" [(selected)]="categorySelect" (selectedChange)="setCategory()">
+        <nb-option value="">Categories</nb-option>
+        <nb-option value="film&tv">Film & TV</nb-option>
+        <nb-option value="food&drink">Food & Drink</nb-option>
+        <nb-option value="geography">Geography</nb-option>
+        <!-- <nb-option value="3">Option 3</nb-option>
+        <nb-option value="4">Option 4</nb-option> -->
+      </nb-select>
+
+        <div *ngFor="let data of quizData">
+          {{ data.question }}
+
+          <ng-container *ngIf="data.id">
+              <nb-list>
+                <nb-list-item *ngFor="let incorect of data.incorrectAnswers">
+                  <button nbButton>
+                    {{ incorect }}
+                  </button> 
+                </nb-list-item>
+
+                <nb-list-item>
+                    <button nbButton>
+                      {{ data.correctAnswer }}
+                    </button> 
+                </nb-list-item>
+              </nb-list>
+          </ng-container>
+        </div>
+
+      <button nbButton (click)="getQuiz()">Submit</button>
+    </nb-card-body>
+  </nb-card>
+
+

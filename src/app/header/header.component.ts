@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbMenuService, NB_WINDOW } from '@nebular/theme';
+import { NbMenuService } from '@nebular/theme';
 import { filter, map, Observable } from 'rxjs';
 import { Weather } from '../weather/weather.model';
 import { HeaderService } from './header.service';
@@ -13,11 +13,7 @@ import { HeaderService } from './header.service';
 export class HeaderComponent implements OnInit {
   weatherDataHeader?: Weather;
   weatherDataCurrent: Observable<Weather>;
-  gamesItems = [
-    {
-      title: 'Hangman',
-    },
-  ];
+  gamesItems = [{ title: 'Hangman' }, { title: 'Quiz' }];
 
   constructor(
     public headerService: HeaderService,
