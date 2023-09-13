@@ -1,5 +1,3 @@
-<!-- TODO Preuredjivanje liste -->
-
 <nb-card [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
   <nb-card-body>
     <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
@@ -25,9 +23,11 @@
     </div>
 
     <ng-container *ngIf="itemsLength === 0; else showItems">
-      <p *ngIf="filter == 'all'">Empty Todo. Please add some Todos</p>
-      <p *ngIf="filter == 'active'">Empty Active Todo. Please add some Todos</p>
-      <p *ngIf="filter == 'completed'">
+      <p *ngIf="filter == ItemFilters.all">Empty Todo. Please add some Todos</p>
+      <p *ngIf="filter == ItemFilters.active">
+        Empty Active Todo. Please add some Todos
+      </p>
+      <p *ngIf="filter == ItemFilters.completed">
         Empty completed Todo. Please complete some Todos
       </p>
     </ng-container>
@@ -41,8 +41,7 @@
           class="fw-normal ptb-20"
           todo-item
           *ngFor="
-            let itemsEl of items
-              | searchItems : searchText
+            let itemsEl of items | searchItems : searchText;
             let i = index;
             trackBy: trackById
           "
@@ -55,10 +54,20 @@
       </ul>
     </ng-template>
 
-    <nb-radio-group fxLayout="row" fxLayoutAlign="center center" [(ngModel)]="filter">
-      <nb-radio value="all" (click)="changeFilter(ItemFilters.all)">All</nb-radio>
-      <nb-radio value="active" (click)="changeFilter(ItemFilters.active)">Active</nb-radio>
-      <nb-radio value="completed" (click)="changeFilter(ItemFilters.completed)">Completed</nb-radio>
+    <nb-radio-group
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      [(ngModel)]="filter"
+    >
+      <nb-radio value="all" (click)="changeFilter(ItemFilters.all)"
+        >All</nb-radio
+      >
+      <nb-radio value="active" (click)="changeFilter(ItemFilters.active)"
+        >Active</nb-radio
+      >
+      <nb-radio value="completed" (click)="changeFilter(ItemFilters.completed)"
+        >Completed</nb-radio
+      >
     </nb-radio-group>
 
     <div class="add-todo">

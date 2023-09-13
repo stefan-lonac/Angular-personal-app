@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+// import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -11,7 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../environments/environment.prod';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,13 +24,12 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './auth/auth.service';
 import { ProfileComponent } from './profile/profile.component';
 import { SignoutDialogComponent } from './profile/signout-dialog/signout-dialog.component';
-import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
+import { ThemeSwitcherComponent } from './shared/components/theme-switcher/theme-switcher.component';
 import { DeleteDialogComponent } from './item/delete-dialog/delete-dialog.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { WeatherComponent } from './weather/weather.component';
 import { ApixuService } from './weather/apixu.service';
 import { TemperaturePipeClass } from './weather/pipe/temperature-class.pipe';
-import { ItemPageComponent } from './item/item-page/item-page.component';
 import { LengthClassDirective } from './shared/directive/length-class.directive';
 import {
   NbThemeModule,
@@ -66,15 +65,13 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { EmptyTextPipe } from './shared/pipe/empty-text.pipe';
 import { HangmanComponent } from './games/hangman/hangman.component';
-import { LengthPipe } from './shared/pipe/length.pipe';
 import { DisableButton } from './item/shared/pipe/disable-button.pipe';
-import { SearchItemsPipe } from './item/shared/pipe/search-items.pipe';
+import { QuizComponent } from './games/quiz/quiz.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ItemComponent,
-    ItemListComponent,
+    // ItemComponent,
     HeaderComponent,
     LoginComponent,
     ProfileComponent,
@@ -83,31 +80,27 @@ import { SearchItemsPipe } from './item/shared/pipe/search-items.pipe';
     DeleteDialogComponent,
     SignUpComponent,
     WeatherComponent,
-    ItemPageComponent,
     LengthClassDirective,
     HangmanComponent,
-    LengthPipe,
     EmptyTextPipe,
     TemperaturePipeClass,
-    DisableButton,
-    SearchItemsPipe,
+    QuizComponent,
   ],
   imports: [
-    BrowserModule,
+    // ItemListComponent,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    CommonModule,
+    // CommonModule,
     NgbModule,
-    CommonModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    BrowserModule,
+    // BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MatDialogModule,
-    FontAwesomeModule,
+    // FontAwesomeModule,
     FlexLayoutModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbMenuModule.forRoot(),
@@ -130,7 +123,6 @@ import { SearchItemsPipe } from './item/shared/pipe/search-items.pipe';
     NbButtonGroupModule,
     NbListModule,
     NbIconModule,
-    NbEvaIconsModule,
   ],
   providers: [
     HeaderService,

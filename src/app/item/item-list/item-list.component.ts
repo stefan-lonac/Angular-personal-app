@@ -1,17 +1,45 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  NbCardModule,
+  NbGlobalLogicalPosition,
+  NbInputModule,
+  NbRadioModule,
+  NbSpinnerModule,
+  NbToastrService,
+} from '@nebular/theme';
 import { filter, map } from 'rxjs';
 import { animationList } from '../assets/animation-list';
 
-import { ItemFilters } from '../item-filter.enum';
-import { Items } from '../item.model';
+import { Items } from '../shared/model/item.model';
 import { ItemsSevice } from '../item.service';
+import { ItemFilters } from '../shared/enums/item-filter.enum';
+import { CommonModule } from '@angular/common';
+import { SearchItemsPipe } from 'src/app/item/shared/pipe/search-items.pipe';
+import { LengthPipe } from 'src/app/shared/pipe/length.pipe';
+import { FormsModule } from '@angular/forms';
+import { DisableButton } from '../shared/pipe/disable-button.pipe';
+import { ItemComponent } from '../item.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'todo-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
   animations: [animationList],
+  standalone: true,
+  imports: [
+    NbCardModule,
+    FlexLayoutModule,
+    CommonModule,
+    NbSpinnerModule,
+    NbRadioModule,
+    SearchItemsPipe,
+    LengthPipe,
+    FormsModule,
+    DisableButton,
+    ItemComponent,
+    NbInputModule,
+  ],
 })
 export class ItemListComponent implements OnInit {
   id: number;
@@ -73,8 +101,6 @@ export class ItemListComponent implements OnInit {
     });
   }
 
-  // When items interactive (add, remove...) this function watch for loop
-  // and do interaction only for that item
   trackById(item: any) {
     return item.id;
   }

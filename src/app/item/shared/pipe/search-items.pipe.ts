@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Items } from '../../item.model';
+import { Items } from '../model/item.model';
 
 @Pipe({
   name: 'searchItems',
+  standalone: true,
 })
 export class SearchItemsPipe implements PipeTransform {
   transform(items: Items[], searchText: string): Items[] {

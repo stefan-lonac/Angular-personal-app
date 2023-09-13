@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChildrenOutletContexts, Router } from '@angular/router';
-import { slideInAnimation } from './animations';
+import { slideInAnimation } from './shared/assets/animation/animations';
 import { AuthService } from './auth/auth.service';
 
 @Component({

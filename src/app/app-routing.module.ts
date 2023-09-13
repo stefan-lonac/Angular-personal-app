@@ -8,6 +8,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { WeatherComponent } from './weather/weather.component';
+import { QuizComponent } from './games/quiz/quiz.component';
+import { ApplicationRoutes } from './consts/application-routes';
+import { RouterParams } from './consts/router-params';
 
 const routes: Routes = [
   {
@@ -26,17 +29,26 @@ const routes: Routes = [
     path: 'sign-up',
     component: SignUpComponent,
   },
-
   {
-    path: 'todos',
-    title: 'Todos',
-    component: ItemListComponent,
+    path: ApplicationRoutes.Todos._Base,
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'todos',
     children: [
-      { path: 'item/:id', title: 'Item', component: ItemPageComponent },
+      {
+        path: '',
+        title: 'Todos',
+        loadComponent: () =>
+          import('./item/item-list/item-list.component').then(
+            (c) => c.ItemListComponent
+          ),
+      },
+      {
+        path: `${ApplicationRoutes.Todos.ItemDetails}/:${RouterParams.ItemId}`,
+        title: 'Item',
+        loadComponent: () =>
+          import('./item/item-page/item-page.component').then(
+            (c) => c.ItemPageComponent
+          ),
+      },
     ],
   },
 
@@ -60,6 +72,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'hangman', title: 'Hangman', component: HangmanComponent },
+      { path: 'quiz', title: 'Quiz', component: QuizComponent },
     ],
   },
 

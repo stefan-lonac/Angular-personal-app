@@ -2,6 +2,7 @@ import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'disableBtn',
+  standalone: true,
 })
 export class DisableButton implements PipeTransform {
   constructor(private el: ElementRef) {}
