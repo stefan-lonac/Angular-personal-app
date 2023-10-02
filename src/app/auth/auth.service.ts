@@ -5,7 +5,6 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { User } from './login/user';
 import { SignoutDialogComponent } from '../profile/signout-dialog/signout-dialog.component';

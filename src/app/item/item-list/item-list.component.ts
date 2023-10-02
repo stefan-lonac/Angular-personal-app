@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   NbCardModule,
   NbGlobalLogicalPosition,
@@ -7,7 +7,7 @@ import {
   NbSpinnerModule,
   NbToastrService,
 } from '@nebular/theme';
-import { filter, map } from 'rxjs';
+import { map } from 'rxjs';
 import { animationList } from '../assets/animation-list';
 
 import { Items } from '../shared/model/item.model';
@@ -19,7 +19,6 @@ import { LengthPipe } from 'src/app/shared/pipe/length.pipe';
 import { FormsModule } from '@angular/forms';
 import { DisableButton } from '../shared/pipe/disable-button.pipe';
 import { ItemComponent } from '../item.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'todo-list',
@@ -29,7 +28,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   standalone: true,
   imports: [
     NbCardModule,
-    FlexLayoutModule,
     CommonModule,
     NbSpinnerModule,
     NbRadioModule,

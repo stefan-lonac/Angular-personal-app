@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AngularFireModule } from '@angular/fire/compat';
@@ -62,7 +61,6 @@ import {
   NbToastrModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { EmptyTextPipe } from './shared/pipe/empty-text.pipe';
 import { HangmanComponent } from './games/hangman/hangman.component';
 import { DisableButton } from './item/shared/pipe/disable-button.pipe';
@@ -79,11 +77,11 @@ import { QuizComponent } from './games/quiz/quiz.component';
     ThemeSwitcherComponent,
     DeleteDialogComponent,
     SignUpComponent,
-    WeatherComponent,
+    // WeatherComponent,
     LengthClassDirective,
     HangmanComponent,
     EmptyTextPipe,
-    TemperaturePipeClass,
+    // TemperaturePipeClass,
     QuizComponent,
   ],
   imports: [
@@ -99,9 +97,7 @@ import { QuizComponent } from './games/quiz/quiz.component';
     // BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    MatDialogModule,
     // FontAwesomeModule,
-    FlexLayoutModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbMenuModule.forRoot(),
     NbDialogModule.forRoot(),

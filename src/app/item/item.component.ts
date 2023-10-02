@@ -28,7 +28,6 @@ import { Router } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ApplicationRoutes } from '../consts/application-routes';
 
 @Component({
@@ -37,7 +36,6 @@ import { ApplicationRoutes } from '../consts/application-routes';
   styleUrls: ['./item.component.scss'],
   standalone: true,
   imports: [
-    FlexLayoutModule,
     NbCheckboxModule,
     NbEvaIconsModule,
     NbIconModule,
