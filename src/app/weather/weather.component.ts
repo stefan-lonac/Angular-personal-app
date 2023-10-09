@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+// import {
+//   FormBuilder,
+//   FormGroup,
+//   FormsModule,
+//   ReactiveFormsModule,
+// } from '@angular/forms';
+import { ApixuService } from './apixu.service';
+import { Weather } from './weather.model';
+import { TemperaturePipeClass } from './pipe/temperature-class.pipe';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ApixuService } from './apixu.service';
-import { Weather } from './weather.model';
-import { TemperaturePipeClass } from './pipe/temperature-class.pipe';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'weather',
