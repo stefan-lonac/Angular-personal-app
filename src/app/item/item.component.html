@@ -1,5 +1,13 @@
 <div [ngClass]="{ editing: isEditingProps }" class="item">
+  <mat-checkbox
+    (change)="changeStatus()"
+    [checked]="items.done"
+    [ngClass]="items.done ? 'done' : 'not-done'"
+  >
+  </mat-checkbox>
+
   <a
+    class="list-item-tile"
     *ngIf="!isEditingProps"
     [ngClass]="{ 'done-check': items.done, 'notDone-check': !items.done }"
     (dblclick)="onEditMode()"
@@ -21,23 +29,6 @@
 </div>
 
 <div class="options-item item" fxLayout="row" fxLayoutAlign="center center">
-  <div class="">
-    <div class="status-table">
-      <nb-checkbox
-        (change)="changeStatus()"
-        [checked]="items.done"
-        [status]="items.done ? 'success' : 'primary'"
-        [ngClass]="items.done ? 'done' : 'not-done'"
-      >
-        <span
-          class="badge text-bg-primary"
-          [ngClass]="items.done ? 'done' : 'not-done'"
-          >{{ items.done ? "Done" : "Not Done" }}</span
-        >
-      </nb-checkbox>
-    </div>
-  </div>
-
   <div class="ml-15">
     <a class="edit-button" (click)="onEditMode()">
       <!-- If NOT edit mode activate ** Edit ** -->

@@ -22,7 +22,7 @@ export const slideInAnimation = trigger('routeAnimations', [
             width: '100%',
           }),
         ],
-        { optional: true }
+        { optional: true },
       ),
       query(':enter', [style({ left: '-100%' })]),
       group([
@@ -31,6 +31,6 @@ export const slideInAnimation = trigger('routeAnimations', [
         }),
         query(':enter', [animate('300ms ease-out', style({ left: '0%' }))]),
       ]),
-    ]
+    ],
   ),
 ]);

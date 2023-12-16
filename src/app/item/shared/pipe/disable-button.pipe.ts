@@ -7,7 +7,7 @@ import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 export class DisableButton implements PipeTransform {
   constructor(private el: ElementRef) {}
 
-  transform(value: string) {
+  transform(value: string): boolean {
     const buttonEl = this.el.nativeElement.parentNode;
     if (value === '' || value.length < 3 || value.length > 20) {
       return true;

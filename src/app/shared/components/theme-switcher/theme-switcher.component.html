@@ -1,4 +1,4 @@
-<div style="margin-right: 15px;" (click)="switchTheme()">
-  <img *ngIf="themeName === 'dark'" src="assets/img/light-mode.png" alt="">
-  <img *ngIf="themeName === 'default'" src="assets/img/night-mode.png" alt="">
+<div style="margin-right: 15px" (click)="switchTheme()">
+  <img *ngIf="isDarkTheme === true" src="assets/img/light-mode.png" alt="" />
+  <img *ngIf="isDarkTheme === false" src="assets/img/night-mode.png" alt="" />
 </div>

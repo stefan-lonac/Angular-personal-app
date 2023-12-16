@@ -1,29 +1,29 @@
-<button
-  nbButton
-  outline
-  status="primary"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
-  class="nav-link"
-  routerLink="/todos"
->
-  Todo List
-</button>
+<header>
+  <mat-card>
+    <button
+      mat-button
+      outline
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+      routerLink="/todos"
+    >
+      Todo List
+    </button>
 
-<button
-  nbButton
-  outline
-  status="primary"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
-  class="nav-link"
-  routerLink="/profile"
->
-  Profile
-</button>
+    <button
+      mat-button
+      outline
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+      routerLink="/profile"
+    >
+      Profile
+    </button>
 
-<!-- <button
-  nbButton
+    <!-- <button
+  mat-button
   outline
   status="primary"
   routerLinkActive="active"
@@ -34,21 +34,24 @@
   Games
 </button> -->
 
-<button
-  nbButton
-  outline
-  status="primary"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
-  class="nav-link"
-  outline
-  nbButton
-  [nbContextMenu]="gamesItems"
-  nbContextMenuTag="gamesItems"
->
-  Games
-</button>
+    <button mat-button [matMenuTriggerFor]="menu" class="nav-link">
+      Games
+    </button>
 
-<div class="d-flex align-items-center theme-switcher">
-  <theme-switcher></theme-switcher>
-</div>
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="active"
+        routerLink="/hangman"
+      >
+        Hangman
+      </button>
+      <!-- <button mat-menu-item>Quiz</button> -->
+    </mat-menu>
+
+    <div class="d-flex align-items-center theme-switcher">
+      <theme-switcher></theme-switcher>
+    </div>
+  </mat-card>
+</header>

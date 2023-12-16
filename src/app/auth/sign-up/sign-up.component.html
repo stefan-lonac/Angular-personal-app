@@ -1,12 +1,11 @@
-<nb-card class="box-shadow" [nbSpinner]="authService.loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
-  <nb-card-body>
+<mat-card class="box-shadow">
+  <mat-card-content>
     <div>
       <div class="authBlock">
         <h3>Sign Up</h3>
 
         <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
           <div fxLayout="column" fxLayoutAlign="start none">
-
             <div class="input-container">
               <input
                 class="mb-10"
@@ -14,10 +13,13 @@
                 nbInput
                 placeholder="Email"
                 formControlName="email"
-                [ngClass]="{'error-msg': email?.errors?.['pattern'] && email?.errors?.['email']}"
+                [ngClass]="{
+                  'error-msg':
+                    email?.errors?.['pattern'] && email?.errors?.['email']
+                }"
                 required
               />
-  
+
               <span
                 class="error-msg-text"
                 *ngIf="
@@ -48,7 +50,7 @@
                 formControlName="password"
                 required
               />
-  
+
               <span
                 class="error-msg-text"
                 *ngIf="
@@ -69,7 +71,7 @@
                 formControlName="confirmPassword"
                 required
               />
-  
+
               <span
                 class="error-msg-text"
                 *ngIf="
@@ -98,5 +100,6 @@
         >
       </div>
     </div>
-  </nb-card-body>
-</nb-card>
+  </mat-card-content>
+  <mat-spinner *ngIf="authService.loading"></mat-spinner>
+</mat-card>

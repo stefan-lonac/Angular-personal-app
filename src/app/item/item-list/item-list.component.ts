@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  NbCardModule,
-  NbGlobalLogicalPosition,
-  NbInputModule,
-  NbRadioModule,
-  NbSpinnerModule,
-  NbToastrService,
-} from '@nebular/theme';
+
 import { map } from 'rxjs';
 import { animationList } from '../assets/animation-list';
 
@@ -16,9 +9,38 @@ import { ItemFilters } from '../shared/enums/item-filter.enum';
 import { CommonModule } from '@angular/common';
 import { SearchItemsPipe } from 'src/app/item/shared/pipe/search-items.pipe';
 import { LengthPipe } from 'src/app/shared/pipe/length.pipe';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DisableButton } from '../shared/pipe/disable-button.pipe';
 import { ItemComponent } from '../item.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+
+export class AddItemFormErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null,
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
 
 @Component({
   selector: 'todo-list',
@@ -27,35 +49,43 @@ import { ItemComponent } from '../item.component';
   animations: [animationList],
   standalone: true,
   imports: [
-    NbCardModule,
     CommonModule,
-    NbSpinnerModule,
-    NbRadioModule,
     SearchItemsPipe,
     LengthPipe,
     FormsModule,
     DisableButton,
     ItemComponent,
-    NbInputModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatButtonModule,
   ],
 })
 export class ItemListComponent implements OnInit {
-  id: number;
-  items: Items[];
-  itemsLength: number;
-  editingId: string | null = null;
-  title = '';
-  description = '';
-  ItemFilters = ItemFilters;
-  filter: string = 'all';
-  loading: boolean = true;
-  selectedItem = '';
-  searchText: string = '';
+  protected title = new FormControl<string>('', [
+    Validators.required,
+    Validators.maxLength(20),
+    Validators.minLength(3),
+  ]);
+  protected description = new FormControl<string>('');
+  matcherFrom = new AddItemFormErrorStateMatcher();
+
+  protected items: Items[];
+  protected itemsLength: number;
+  protected editingId: string | null = null;
+  protected ItemFilters = ItemFilters;
+  protected filter: string = this.ItemFilters.all;
+  protected loading: boolean = true;
+  protected selectedItem = '';
+  protected searchText: string = '';
 
   // Slice variable
   // setPerList: any = '5';
 
-  fetchItems$ = this.itemsService
+  private fetchItems$ = this.itemsService
     .getAll()
     .snapshotChanges()
     .pipe(
@@ -63,13 +93,13 @@ export class ItemListComponent implements OnInit {
         changes.map((c) => ({
           id_main: c.payload.doc.id,
           ...c.payload.doc.data(),
-        }))
-      )
+        })),
+      ),
     );
 
   constructor(
     private itemsService: ItemsSevice,
-    private nbToastr: NbToastrService
+    private _snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -105,24 +135,20 @@ export class ItemListComponent implements OnInit {
 
   cahngeText(event: Event) {
     const target = <HTMLInputElement>event.target;
-    this.title = target.value;
-    if (this.title.length <= 3) {
+
+    if (this.title.value!.length <= 3) {
       target.disabled;
     }
   }
 
   onAddItem() {
-    if (this.title !== '' && this.title.length >= 3) {
-      this.nbToastr.show(`Item - ${this.title}`, `Added successfully!`, {
-        status: 'success',
-        position: NbGlobalLogicalPosition.BOTTOM_END,
-        limit: 3,
+    if (this.title.value !== '' && this.title.value!.length >= 3) {
+      this._snackBar.open(`Item - ${this.title}`, `Added successfully!`, {
+        horizontalPosition: 'start',
+        verticalPosition: 'bottom',
       });
 
-      this.itemsService.addItem(this.title, this.description).then(() => {
-        this.title = '';
-        this.description = '';
-      });
+      this.itemsService.addItem(this.title.value!, this.description.value!);
     }
   }
 

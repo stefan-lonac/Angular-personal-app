@@ -1,24 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
-import { map, Observable, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Items } from '../shared/model/item.model';
-import {
-  NbButtonModule,
-  NbCardModule,
-  NbCheckboxModule,
-  NbGlobalLogicalPosition,
-  NbIconModule,
-  NbSpinnerModule,
-  NbToastrService,
-} from '@nebular/theme';
 import { ItemsSevice } from '../item.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterParams } from 'src/app/consts/router-params';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Nil } from 'src/app/utils/type-guards';
 
 @Component({
   selector: 'item',
@@ -26,21 +30,29 @@ import { ItemsSevice } from '../item.service';
   styleUrls: ['./item-page.component.scss'],
   standalone: true,
   imports: [
-    NbButtonModule,
-    NbIconModule,
     ReactiveFormsModule,
     FormsModule,
-    NbCardModule,
-    NbCheckboxModule,
-    NbSpinnerModule,
     CommonModule,
+    MatSnackBarModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
   ],
 })
-export class ItemPageComponent implements OnInit {
+export class ItemPageComponent {
   item?: Items;
   itemId: string | null;
   editMode: boolean = false;
-  itemForm: FormGroup;
+  itemForm = new FormGroup({
+    title: new FormControl<string | Nil>(
+      this.item?.title!,
+      Validators.required,
+    ),
+    description: new FormControl<string | Nil>(this.item?.description!),
+    done: new FormControl<boolean | Nil>(this.item?.done!),
+  });
   checked?: boolean;
   loading: boolean = true;
   items$: Observable<Items | undefined>;
@@ -49,12 +61,11 @@ export class ItemPageComponent implements OnInit {
     private itemsService: ItemsSevice,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private nbToastr: NbToastrService,
-    private location: Location
-  ) {}
+    private _snackBar: MatSnackBar,
+    private location: Location,
+  ) {
+    this.itemId = this.route.snapshot.params[RouterParams.ItemId];
 
-  ngOnInit() {
-    this.itemId = this.route.snapshot.paramMap.get('id');
     if (this.itemId) {
       this.items$ = this.itemsService
         .getAll()
@@ -62,7 +73,7 @@ export class ItemPageComponent implements OnInit {
         .valueChanges();
 
       this.itemForm = this.formBuilder.group({
-        title: [this.item?.title],
+        title: [this.item?.title, Validators.required],
         description: [this.item?.description],
         done: [this.item?.done],
       });
@@ -76,20 +87,15 @@ export class ItemPageComponent implements OnInit {
         description: this.itemForm.value.description,
         done: this.itemForm.value.done,
       };
-      this.item = this.itemForm.value;
+      // this.item = this.itemForm.value;
       this.itemsService.update(this.itemId, dataItem);
       this.editMode = false;
-      // Show popup after edit Item
-      this.nbToastr.show(
-        `Item - ${dataItem.title}`,
-        `Item edited successfully!`,
-        {
-          status: 'success',
-          position: NbGlobalLogicalPosition.BOTTOM_END,
-          limit: 3,
-          duration: 2000,
-        }
-      );
+
+      this._snackBar.open(`Item - ${dataItem.title}`, `Edited successfully!`, {
+        horizontalPosition: 'start',
+        verticalPosition: 'bottom',
+        duration: 2000,
+      });
     }
   }
 
@@ -103,8 +109,8 @@ export class ItemPageComponent implements OnInit {
     });
   }
 
-  toggleChecked(checked: boolean) {
-    this.checked = checked;
+  toggleChecked(checked: MatCheckboxChange) {
+    this.checked = checked.checked;
   }
 
   cancelEdit() {

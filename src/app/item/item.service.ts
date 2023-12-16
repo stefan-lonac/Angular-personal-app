@@ -8,13 +8,14 @@ import {
 
 import { AuthService } from '../auth/auth.service';
 import { Items } from './shared/model/item.model';
+import { Observable, map } from 'rxjs';
+import { User } from '../auth/login/model/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemsSevice {
   userUid: string;
-  itemsObject: any;
   items: Items[];
   private dbpath = '/item';
   itemsRef: AngularFirestoreCollection<Items>;
@@ -23,26 +24,41 @@ export class ItemsSevice {
   constructor(
     private authService: AuthService,
     private firestore: AngularFirestore,
-    public afAuth: AngularFireAuth
-  ) {}
+    public afAuth: AngularFireAuth,
+  ) {
+    this.itemsRef = this.firestore.collection(this.dbpath);
+  }
 
   getAll(): AngularFirestoreCollection<Items> {
     const userItemsLocal = JSON.parse(localStorage.getItem('user')!);
+
     return (this.itemsRef = this.firestore.collection(this.dbpath, (ref) =>
-      ref.where('user_id', '==', userItemsLocal.uid).orderBy('date', 'desc')
+      ref.where('user_id', '==', userItemsLocal.uid).orderBy('date', 'desc'),
     ));
   }
 
   addItem(title: string, description: string) {
     const newItem: Items = {
       id: (Math.random() + 1).toString(36).substring(7),
-      user_id: this.authService.userData.uid,
+      user_id: this.authService.user.uid,
       title,
       description,
       done: false,
       date: new Date().toISOString(),
     };
     return this.itemsRef.add({ ...newItem });
+  }
+
+  isUserItem(itemID: string): Observable<boolean> {
+    const userItemsLocal = JSON.parse(localStorage.getItem('user')!);
+    return this.firestore
+      .doc<Items>(`${this.dbpath}/${itemID}`)
+      .valueChanges()
+      .pipe(
+        map((item) => {
+          return item!.user_id === userItemsLocal.uid;
+        }),
+      );
   }
 
   update(id: string, data: object): Promise<void> {

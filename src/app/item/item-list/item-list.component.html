@@ -1,6 +1,6 @@
-<nb-card [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
-  <nb-card-body>
-    <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
+<mat-card>
+  <mat-card-content>
+    <div class="list-info">
       <h2>Todo list - {{ itemsLength }}</h2>
 
       <!-- TODO 1: slice select option for items -->
@@ -36,12 +36,10 @@
       <ul class="list-todo">
         <!-- TODO 1: Create slice pipe items with search input "slice : 0 : setPerList" -->
         <li
-          fxLayout="row"
-          fxLayoutAlign="space-between center"
           class="fw-normal ptb-20"
           todo-item
           *ngFor="
-            let itemsEl of items | searchItems : searchText;
+            let itemsEl of items | searchItems: searchText;
             let i = index;
             trackBy: trackById
           "
@@ -53,73 +51,80 @@
         ></li>
       </ul>
     </ng-template>
+    <mat-spinner *ngIf="loading"></mat-spinner>
 
-    <nb-radio-group
-      fxLayout="row"
-      fxLayoutAlign="center center"
-      [(ngModel)]="filter"
-    >
-      <nb-radio value="all" (click)="changeFilter(ItemFilters.all)"
-        >All</nb-radio
+    <mat-radio-group [(ngModel)]="filter">
+      <mat-radio-button
+        [value]="ItemFilters.all"
+        (click)="changeFilter(ItemFilters.all)"
+        >All</mat-radio-button
       >
-      <nb-radio value="active" (click)="changeFilter(ItemFilters.active)"
-        >Active</nb-radio
+      <mat-radio-button
+        [value]="ItemFilters.active"
+        (click)="changeFilter(ItemFilters.active)"
+        >Active</mat-radio-button
       >
-      <nb-radio value="completed" (click)="changeFilter(ItemFilters.completed)"
-        >Completed</nb-radio
+      <mat-radio-button
+        [value]="ItemFilters.completed"
+        (click)="changeFilter(ItemFilters.completed)"
+        >Completed</mat-radio-button
       >
-    </nb-radio-group>
+    </mat-radio-group>
 
     <div class="add-todo">
       <div class="title-input">
-        <span
-          class="length-input"
-          [ngClass]="{ errorLength: title.length > 20 }"
-          >{{ title | length : 20 }}</span
-        >
-        <input
-          type="text"
-          nbInput
-          fullWidth
-          class="add"
-          [ngClass]="{
-            'invalid-input': title.length < 3,
-            'empty-input': title === '',
-            'valid-input': title.length >= 3
-          }"
-          id="title"
-          placeholder="Title Todo"
-          [value]="title"
-          (keyup)="cahngeText($event)"
-          [(ngModel)]="title"
-        />
+        <mat-form-field class="example-full-width">
+          <mat-label>Title Todo</mat-label>
+
+          <input
+            type="text"
+            matInput
+            class="title-input"
+            [value]="title.value"
+            (keyup)="cahngeText($event)"
+            [formControl]="title"
+            [errorStateMatcher]="matcherFrom"
+          />
+
+          <mat-error
+            *ngIf="title.hasError('title') && !title.hasError('required')"
+          >
+            Please enter a valid title
+          </mat-error>
+          <mat-error *ngIf="title.hasError('required')">
+            Title is <strong>required</strong>
+          </mat-error>
+
+          <mat-error *ngIf="title.hasError('minlength')">
+            Min length is <strong>3</strong>
+          </mat-error>
+
+          <mat-error *ngIf="title.hasError('maxlength')">
+            Max length is <strong>20</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
 
-      <textarea
-        type="text"
-        nbInput
-        fullWidth
-        class="add"
-        style="height: 100px"
-        [ngClass]="{
-          'invalid-input': description.length < 3,
-          'empty-input': description === '',
-          'valid-input': description.length >= 3
-        }"
-        id="description"
-        placeholder="Description Todo"
-        [value]="description"
-        [(ngModel)]="description"
-      ></textarea>
+      <mat-form-field>
+        <textarea
+          matInput
+          class="description"
+          style="height: 100px"
+          id="description"
+          placeholder="Description Todo"
+          [value]="description.value"
+          [formControl]="description"
+        ></textarea>
+      </mat-form-field>
 
       <button
         (click)="onAddItem()"
-        nbButton
-        status="success"
-        [disabled]="title | disableBtn"
+        mat-raised-button
+        color="primary"
+        [disabled]="!title.valid"
       >
         Add
       </button>
     </div>
-  </nb-card-body>
-</nb-card>
+  </mat-card-content>
+</mat-card>
