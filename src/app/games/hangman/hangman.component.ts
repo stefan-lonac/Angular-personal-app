@@ -1,9 +1,11 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-
+import { CommonModule, NgFor } from '@angular/common';
 @Component({
   selector: 'hangman',
   templateUrl: './hangman.component.html',
   styleUrls: ['./hangman.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 
 // TODO keyboard click, voice, qwerty alphabet and dvorak keyboard

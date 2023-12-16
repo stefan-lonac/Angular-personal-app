@@ -1,13 +1,28 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   host: { class: 'login' },
+  standalone: true,
+  imports: [
+    MatCardModule,
+    MatProgressSpinnerModule,
+    CommonModule,
+    ReactiveFormsModule,
+  ],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -16,7 +31,7 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private formBuilder: FormBuilder,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +51,7 @@ export class LoginComponent implements OnInit {
   signIn() {
     this.authService.SignIn(
       this.loginForm.value.email,
-      this.loginForm.value.password
+      this.loginForm.value.password,
     );
   }
 

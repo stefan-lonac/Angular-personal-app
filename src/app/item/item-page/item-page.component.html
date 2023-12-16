@@ -1,21 +1,23 @@
-<button class="back-button" nbButton status="info" (click)="back()">
-  <nb-icon
-    icon="arrow-back-outline"
-    [options]="{ animation: { type: 'pulse' } }"
-  ></nb-icon>
+<button class="back-button" mat-button status="info" (click)="back()">
+  <mat-icon icon="arrow-back-outline"></mat-icon>
 </button>
 <h1>Item details</h1>
 
 <div class="container py-5" *ngIf="items$ | async as item; else loader">
   <form [formGroup]="itemForm" (ngSubmit)="onUpdate()">
-    <nb-card class="box-shadow">
-      <nb-card-body>
+    <mat-card class="box-shadow">
+      <mat-card-content>
         <div>
           <h3 class="">Item Name</h3>
 
           <div>
             <ng-container *ngIf="editMode">
-              <input class="edit" type="text" nbInput formControlName="title" />
+              <input
+                class="edit"
+                type="text"
+                matInput
+                [formControl]="itemForm.controls.title"
+              />
             </ng-container>
 
             <p *ngIf="!editMode" class="text-muted">
@@ -33,7 +35,7 @@
               <textarea
                 class="edit"
                 type="text"
-                nbInput
+                matInput
                 formControlName="description"
                 rows="4"
                 cols="50"
@@ -52,10 +54,9 @@
 
           <div>
             <ng-container *ngIf="editMode">
-              <nb-checkbox
-                (checkedChange)="toggleChecked($event)"
-                [checked]="item.done"
-                [status]="checked ? 'success' : 'primary'"
+              <mat-checkbox
+                (change)="toggleChecked($event)"
+                [checked]="item.done ? 'success' : 'primary'"
                 [ngClass]="item.done ? 'done' : 'not-done'"
                 formControlName="done"
               >
@@ -64,7 +65,7 @@
                   [ngClass]="checked ? 'done' : 'not-done'"
                   >{{ checked ? "Done" : "Not Done" }}</span
                 >
-              </nb-checkbox>
+              </mat-checkbox>
             </ng-container>
 
             <p
@@ -82,7 +83,7 @@
           <h3 class="">Date</h3>
           <div>
             <p class="text-muted">
-              {{ item.date | date : "short" }}
+              {{ item.date | date: "short" }}
             </p>
           </div>
         </div>
@@ -94,8 +95,8 @@
             <p class="text-muted">{{ item.id }}</p>
           </div>
         </div>
-      </nb-card-body>
-    </nb-card>
+      </mat-card-content>
+    </mat-card>
 
     <div class="controls-btn d-flex align-items-center justify-content-between">
       <div
@@ -105,21 +106,27 @@
       >
         <button
           *ngIf="!editMode"
-          nbButton
           status="primary"
           type="button"
           (click)="onEditMode()"
+          mat-button
         >
           Edit
         </button>
 
-        <button *ngIf="editMode" nbButton status="success" type="submit">
+        <button
+          *ngIf="editMode"
+          [disabled]="itemForm.invalid"
+          mat-button
+          status="success"
+          type="submit"
+        >
           Save
         </button>
 
         <button
           *ngIf="editMode"
-          nbButton
+          mat-button
           status="danger"
           type="button"
           (click)="cancelEdit()"
@@ -131,10 +138,5 @@
   </form>
 </div>
 <ng-template #loader>
-  <div
-    class="loader"
-    [nbSpinner]="loading"
-    nbSpinnerStatus="info"
-    nbSpinnerSize="giant"
-  ></div>
+  <mat-spinner *ngIf="loading"></mat-spinner>
 </ng-template>

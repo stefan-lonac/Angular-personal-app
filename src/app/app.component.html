@@ -1,23 +1,23 @@
-<nb-layout>
-  <nb-layout-header
+<mat-card>
+  <ng-container
     fixed
     *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
   >
-    <header xLayout="row" fxLayoutAlign="start center"></header>
-  </nb-layout-header>
+    <app-header></app-header>
+  </ng-container>
 
-  <nb-layout-column>
+  <mat-card>
     <section class="main">
       <div [@routeAnimations]="getRouteAnimationData()">
         <router-outlet></router-outlet>
       </div>
     </section>
-  </nb-layout-column>
+  </mat-card>
 
-  <nb-layout-footer
+  <mat-card-footer
     fixed
     *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
   >
     <!-- Insert footer here -->
-  </nb-layout-footer>
-</nb-layout>
+  </mat-card-footer>
+</mat-card>

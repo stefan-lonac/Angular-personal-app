@@ -1,25 +1,20 @@
-<nb-card class="form-input-card">
-  <nb-card-body>
-    <h3>Are You Sure?</h3>
+<h3>Are You Sure?</h3>
 
-    <p>
-      {{ message }} <strong>{{ title }}</strong> ?
-    </p>
+<p>
+  {{ message }} <strong>{{ data.title }}</strong> ?
+</p>
 
-    <button
-      class="btn"
-      nbButton
-      status="success"
-      style="margin-right: 10px"
-      color="primary"
-      (click)="submit(title)"
-      tabindex="0"
-    >
-      {{ confirmBtnTxt }}
-    </button>
+<button
+  class="btn"
+  mat-raised-button
+  color="primary"
+  style="margin-right: 10px"
+  color="primary"
+  (click)="submit(data.title)"
+>
+  {{ confirmBtnTxt }}
+</button>
 
-    <button class="btn" nbButton status="danger" (click)="close()" tabindex="0">
-      {{ cancelBtnTxt }}
-    </button>
-  </nb-card-body>
-</nb-card>
+<button class="btn" mat-raised-button color="warn" mat-dialog-close>
+  {{ cancelBtnTxt }}
+</button>

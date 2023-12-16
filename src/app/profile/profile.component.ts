@@ -1,13 +1,32 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
+import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { EmptyTextPipe } from '../shared/pipe/empty-text.pipe';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../auth/login/user';
+import { User } from '../auth/login/model/user.model';
 
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    EmptyTextPipe,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatButtonModule,
+  ],
 })
 export class ProfileComponent implements OnInit, OnChanges {
   IMAGE_ROOT = '/assets/img/';
@@ -21,14 +40,13 @@ export class ProfileComponent implements OnInit, OnChanges {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private nbToastr: NbToastrService
+    private _snackBar: MatSnackBar,
   ) {}
 
   ngOnChanges(): void {}
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn) {
-      // console.log(this.user.photoURL);
       this.userGet;
       this.formGet;
       const useEmailName = this.user.email.split(/@(?=[^@]*$)/);
@@ -38,23 +56,17 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   onUpdate() {
     if (this.user.uid) {
-      this.authService.userData = this.profileForm.value;
-
       this.authService
         .update(this.user.uid, this.profileForm.value)
         .then(() => {
-          // Show popup after Edit Prfile
-          this.nbToastr.show(``, `Profile edited successfully!`, {
-            status: 'success',
-            position: NbGlobalLogicalPosition.BOTTOM_END,
-            limit: 3,
-            duration: 3000,
+          this._snackBar.open(`Profile edited successfully!`, ``, {
+            horizontalPosition: 'start',
+            verticalPosition: 'bottom',
+            duration: 2000,
           });
-          this.authService.SetUserData(this.authService.userData);
-          localStorage.setItem(
-            'user',
-            JSON.stringify(this.authService.userData)
-          );
+
+          this.authService.SetUserData(this.profileForm.value);
+          localStorage.setItem('user', JSON.stringify(this.profileForm.value));
         })
         .catch((err) => console.log(err));
       this.editMode = false;

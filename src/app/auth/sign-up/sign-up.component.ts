@@ -1,11 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+  ],
 })
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
@@ -13,7 +28,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +45,7 @@ export class SignUpComponent implements OnInit {
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
-      { validators: this.ConfirmedValidator('password', 'confirmPassword') }
+      { validators: this.ConfirmedValidator('password', 'confirmPassword') },
     );
   }
 
@@ -57,7 +72,7 @@ export class SignUpComponent implements OnInit {
       this.submitted = false;
       this.authService.SignUp(
         this.signUpForm.value.email,
-        this.signUpForm.value.password
+        this.signUpForm.value.password,
       );
     } else {
       this.submitted = true;

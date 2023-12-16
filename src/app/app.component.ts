@@ -13,7 +13,7 @@ export class AppComponent {
   constructor(
     private contexts: ChildrenOutletContexts,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
   ) {}
 
   getRouteAnimationData() {

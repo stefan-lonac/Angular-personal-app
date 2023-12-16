@@ -1,32 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'theme-switcher',
   templateUrl: './theme-switcher.component.html',
   styleUrls: ['./theme-switcher.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class ThemeSwitcherComponent implements OnInit {
   themeName: string = 'default';
-  constructor(private NbThemeService: NbThemeService) {}
+  isDarkTheme: boolean = true;
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.NbThemeService.changeTheme(this.currentTheme);
+    this.isDarkTheme = localStorage.getItem('theme') === 'Dark' ? true : false;
   }
 
-  public get currentTheme(): string {
-    return (this.themeName = localStorage.getItem('theme')!);
-  }
+  // public get currentTheme(): string {
+  //   // return (this.themeName = localStorage.getItem('theme')!);
+  // }
 
   public switchTheme() {
-    if (this.themeName == 'default') {
-      this.themeName = 'dark';
-      localStorage.setItem('theme', this.themeName!);
-      this.NbThemeService.changeTheme(this.currentTheme);
+    if (this.isDarkTheme) {
+      this.isDarkTheme = false;
+      this.themeName = 'Dark';
+      localStorage.setItem('theme', 'Dark');
     } else {
-      this.themeName = 'default';
-      localStorage.setItem('theme', this.themeName!);
-      this.NbThemeService.changeTheme(this.currentTheme);
+      this.isDarkTheme = true;
+      this.themeName = 'Light';
+      localStorage.setItem('theme', 'Light');
     }
   }
 }

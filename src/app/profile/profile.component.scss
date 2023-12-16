@@ -1,20 +1,18 @@
-@use '../../themes' as *;
 @import "../../utility.scss";
 
 :host {
-    section {
-        max-width: 100%;
-        width: 900px;
-        margin: 0 auto;
-        nb-card-body {
-            &.profile-info {
-                text-align: center;
-            }
-        }
-        
-        button {
-            text-transform: nb-theme(capitalize-text-button);
-        }
-
+  section {
+    max-width: 100%;
+    width: 900px;
+    margin: 0 auto;
+    nb-card-body {
+      &.profile-info {
+        text-align: center;
+      }
     }
+
+    button {
+      text-transform: nb-theme(capitalize-text-button);
+    }
+  }
 }

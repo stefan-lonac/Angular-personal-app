@@ -1,45 +1,45 @@
-@import '../../../variable.scss';
-@import '../../../utility.scss';
+@import "../../../variable.scss";
+@import "../../../utility.scss";
 
 :host {
-    .hangman-canvas {
-        .status-of-game {
-            position: absolute;
-            margin: 0 auto;
-            position: absolute;
-            margin-left: auto;
-            margin-right: auto;
-            left: 0;
-            right: 0;
-            text-align: center;
-        }
+  .hangman-canvas {
+    .status-of-game {
+      position: absolute;
+      margin: 0 auto;
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+      text-align: center;
     }
-    ul {
-        list-style: none;
-        li {
-            margin: 10px;
-            position: relative;
-            .dis-none {
-                opacity: 0;
-            }
-            .word-line {
-                position: absolute;
-            }
-            .hidden-word {
-                text-transform: uppercase;
-            }
-        }   
+  }
+  ul {
+    list-style: none;
+    li {
+      margin: 10px;
+      position: relative;
+      .dis-none {
+        opacity: 0;
+      }
+      .word-line {
+        position: absolute;
+      }
+      .hidden-word {
+        text-transform: uppercase;
+      }
     }
-    .question {
-        margin: 20px 0;
-        p {
-            letter-spacing: 15px;
-            font-size: 20px;
-        }
+  }
+  .question {
+    margin: 20px 0;
+    p {
+      letter-spacing: 15px;
+      font-size: 20px;
     }
-    .letters {
-        button {
-            margin: 5px;
-        }
+  }
+  .letters {
+    button {
+      margin: 5px;
     }
+  }
 }
