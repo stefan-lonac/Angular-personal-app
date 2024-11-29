@@ -11,6 +11,7 @@ import { ApplicationRoutes } from './consts/application-routes';
 import { RouterParams } from './consts/router-params';
 import { ItemResolver } from './item/resolvers/item.resolver';
 import { isOwnTodoItem } from './auth/guards/is-own-todo-item.guard';
+import { CanDeactivateEditGuardFn } from './auth/guards/can-deactivate-edit.guard';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
   {
     path: ApplicationRoutes.Todos._Base,
     canActivate: [loginGuard],
+    canDeactivate: [CanDeactivateEditGuardFn],
     title: 'Todos',
     loadComponent: () =>
       import('./item/item-list/item-list.component').then(
@@ -41,6 +43,7 @@ const routes: Routes = [
   {
     path: `${ApplicationRoutes.Item._Base}/:${RouterParams.ItemId}`,
     canActivate: [loginGuard, isOwnTodoItem],
+    canDeactivate: [CanDeactivateEditGuardFn],
     loadComponent: () =>
       import('./item/item-page/item-page.component').then(
         (c) => c.ItemPageComponent,
@@ -50,22 +53,19 @@ const routes: Routes = [
     },
     data: { process: true },
   },
-
   {
     path: 'profile',
     title: 'Profile',
     component: ProfileComponent,
     canActivate: [loginGuard],
+    canDeactivate: [CanDeactivateEditGuardFn],
   },
-
   {
     path: 'weather',
     title: 'Weather',
     component: WeatherComponent,
     canActivate: [loginGuard],
   },
-
-  // TODO in future ** path: 'games' **
   {
     path: '',
     canActivate: [loginGuard],

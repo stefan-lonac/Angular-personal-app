@@ -76,14 +76,12 @@ export class ItemListComponent implements OnInit {
   protected items: Items[];
   protected itemsLength: number;
   protected editingId: string | null = null;
+  protected isSaved = true;
   protected ItemFilters = ItemFilters;
   protected filter: string = this.ItemFilters.all;
   protected loading: boolean = true;
   protected selectedItem = '';
   protected searchText: string = '';
-
-  // Slice variable
-  // setPerList: any = '5';
 
   private fetchItems$ = this.itemsService
     .getAll()
@@ -106,7 +104,7 @@ export class ItemListComponent implements OnInit {
     this.fetchItems();
   }
 
-  fetchItems() {
+  protected fetchItems() {
     this.fetchItems$.subscribe((data: Items[]) => {
       this.loading = false;
       switch (this.filter) {
@@ -129,11 +127,11 @@ export class ItemListComponent implements OnInit {
     });
   }
 
-  trackById(item: any) {
+  protected trackById(item: any) {
     return item.id;
   }
 
-  cahngeText(event: Event) {
+  protected cahngeText(event: Event) {
     const target = <HTMLInputElement>event.target;
 
     if (this.title.value!.length <= 3) {
@@ -141,7 +139,7 @@ export class ItemListComponent implements OnInit {
     }
   }
 
-  onAddItem() {
+  protected onAddItem() {
     if (this.title.value !== '' && this.title.value!.length >= 3) {
       this._snackBar.open(`Item - ${this.title}`, `Added successfully!`, {
         horizontalPosition: 'start',
@@ -152,12 +150,24 @@ export class ItemListComponent implements OnInit {
     }
   }
 
-  setEditId(id: string | null) {
-    this.editingId = id;
+  protected setEditId(id: string | null) {
+    if ((this.editingId = id)) {
+      return (this.isSaved = false);
+    }
+
+    return (this.isSaved = true);
   }
 
-  changeFilter(filter: string) {
+  protected changeFilter(filter: string) {
     this.filter = filter;
     this.fetchItems();
+  }
+
+  public canDeactivateEdit(): boolean {
+    if (!this.isSaved) {
+      return false;
+    }
+
+    return true;
   }
 }

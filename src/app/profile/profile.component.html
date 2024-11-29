@@ -1,9 +1,9 @@
 <ng-container *ngIf="authService.user as user">
-  <section>
+  <section class="content">
     <h1>User Profile</h1>
 
-    <mat-card class="box-shadow">
-      <mat-card-content class="profile-info">
+    <mat-card class="box-shadow profile-info">
+      <mat-card-content class="profile-info-content">
         <img
           [src]="
             user?.photoURL === undefined || null || ''
@@ -107,11 +107,7 @@
         </mat-card-content>
       </mat-card>
 
-      <div
-        class="controls-btn"
-        fxLayout=""
-        fxLayoutAlign="space-between center"
-      >
+      <div class="controls-btn">
         <div class="edit-save-buttons">
           <button
             *ngIf="!editMode"
@@ -122,7 +118,12 @@
             Edit
           </button>
 
-          <button *ngIf="editMode" mat-raised-button color="accent">
+          <button
+            *ngIf="editMode"
+            mat-raised-button
+            color="accent"
+            class="save-button"
+          >
             Save
           </button>
 
@@ -131,7 +132,6 @@
             mat-raised-button
             color="primary"
             (click)="cancelEdit()"
-            style="margin-left: 10px"
           >
             Cancel
           </button>

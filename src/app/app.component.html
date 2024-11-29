@@ -1,23 +1,17 @@
-<mat-card>
-  <ng-container
-    fixed
-    *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
-  >
-    <app-header></app-header>
-  </ng-container>
+<ng-container
+  fixed
+  *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
+>
+  <app-header></app-header>
+</ng-container>
 
-  <mat-card>
-    <section class="main">
-      <div [@routeAnimations]="getRouteAnimationData()">
-        <router-outlet></router-outlet>
-      </div>
-    </section>
-  </mat-card>
+<div class="main-content" [@routeAnimations]="getRouteAnimationData()">
+  <router-outlet></router-outlet>
+</div>
 
-  <mat-card-footer
-    fixed
-    *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
-  >
-    <!-- Insert footer here -->
-  </mat-card-footer>
-</mat-card>
+<mat-card-footer
+  fixed
+  *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
+>
+  <!-- Insert footer here -->
+</mat-card-footer>

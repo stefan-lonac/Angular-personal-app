@@ -19,16 +19,11 @@ import { ApixuService } from './weather/apixu.service';
 import { LengthClassDirective } from './shared/directive/length-class.directive';
 import { MatCardModule } from '@angular/material/card';
 
-// import { QuizComponent } from './games/quiz/quiz.component';
 import { HeaderComponent } from './header/header.component';
+import { ConfirmDialogComponent } from './shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DeleteDialogComponent,
-    LengthClassDirective,
-    // QuizComponent,
-  ],
+  declarations: [AppComponent, DeleteDialogComponent, LengthClassDirective],
   imports: [
     AppRoutingModule,
     ReactiveFormsModule,

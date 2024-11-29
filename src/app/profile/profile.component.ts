@@ -28,22 +28,34 @@ import { User } from '../auth/login/model/user.model';
     MatButtonModule,
   ],
 })
-export class ProfileComponent implements OnInit, OnChanges {
+export class ProfileComponent implements OnInit {
   IMAGE_ROOT = '/assets/img/';
-  user: User;
-  profileForm: FormGroup;
-  editMode: boolean;
-  emailName: any;
-  defaultImg: string =
+  protected user: User;
+  protected profileForm: FormGroup;
+  protected editMode: boolean;
+  protected emailName: string;
+  protected defaultImg: string =
     'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png';
+  protected isSaved = true;
+
+  private get formGet() {
+    return (this.profileForm = this.formBuilder.group({
+      displayName: [this.user.displayName || this.emailName],
+      role: [this.user.role],
+      location: [this.user.location],
+    }));
+  }
+
+  private get userGet() {
+    const userGet = JSON.parse(localStorage.getItem('user')!);
+    return (this.user = { ...userGet });
+  }
 
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
   ) {}
-
-  ngOnChanges(): void {}
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn) {
@@ -70,6 +82,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         })
         .catch((err) => console.log(err));
       this.editMode = false;
+      this.isSaved = true;
     }
   }
 
@@ -77,22 +90,19 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.editMode = true;
     this.userGet;
     this.formGet;
+    this.isSaved = false;
   }
 
   cancelEdit() {
     this.editMode = false;
+    this.isSaved = true;
   }
 
-  private get formGet() {
-    return (this.profileForm = this.formBuilder.group({
-      displayName: [this.user.displayName || this.emailName],
-      role: [this.user.role],
-      location: [this.user.location],
-    }));
-  }
+  public canDeactivateEdit() {
+    if (!this.isSaved) {
+      return false;
+    }
 
-  private get userGet() {
-    const userGet = JSON.parse(localStorage.getItem('user')!);
-    return (this.user = { ...userGet });
+    return true;
   }
 }

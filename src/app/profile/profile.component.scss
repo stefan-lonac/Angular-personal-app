@@ -1,18 +1,34 @@
 @import "../../utility.scss";
 
 :host {
-  section {
-    max-width: 100%;
-    width: 900px;
-    margin: 0 auto;
-    nb-card-body {
-      &.profile-info {
-        text-align: center;
-      }
+  .profile-info {
+    margin-bottom: 20px;
+  }
+
+  .profile-info-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  nb-card-body {
+    &.profile-info {
+      text-align: center;
     }
 
     button {
       text-transform: nb-theme(capitalize-text-button);
+    }
+  }
+
+  .controls-btn {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .save-button {
+      margin-right: 10px;
     }
   }
 }

@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Items } from '../shared/model/item.model';
 import { ItemsSevice } from '../item.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterParams } from 'src/app/consts/router-params';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Nil } from 'src/app/utils/type-guards';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'item',
@@ -39,13 +40,15 @@ import { Nil } from 'src/app/utils/type-guards';
     MatCardModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
+    MatButtonModule,
   ],
 })
 export class ItemPageComponent {
-  item?: Items;
-  itemId: string | null;
-  editMode: boolean = false;
-  itemForm = new FormGroup({
+  protected item?: Items;
+  protected itemId: string | null;
+  protected editMode: boolean = false;
+  protected isSaved = true;
+  protected itemForm = new FormGroup({
     title: new FormControl<string | Nil>(
       this.item?.title!,
       Validators.required,
@@ -53,9 +56,9 @@ export class ItemPageComponent {
     description: new FormControl<string | Nil>(this.item?.description!),
     done: new FormControl<boolean | Nil>(this.item?.done!),
   });
-  checked?: boolean;
-  loading: boolean = true;
-  items$: Observable<Items | undefined>;
+  protected checked?: boolean;
+  protected loading: boolean = true;
+  protected items$: Observable<Items | undefined>;
 
   constructor(
     private itemsService: ItemsSevice,
@@ -80,14 +83,17 @@ export class ItemPageComponent {
     }
   }
 
-  onUpdate() {
+  onUpdate(): void {
+    if (!this.isSaved) {
+      this.isSaved = false;
+    }
+
     if (this.itemId) {
       const dataItem = {
         title: this.itemForm.value.title,
         description: this.itemForm.value.description,
         done: this.itemForm.value.done,
       };
-      // this.item = this.itemForm.value;
       this.itemsService.update(this.itemId, dataItem);
       this.editMode = false;
 
@@ -97,6 +103,8 @@ export class ItemPageComponent {
         duration: 2000,
       });
     }
+
+    this.isSaved = true;
   }
 
   onEditMode() {
@@ -107,6 +115,8 @@ export class ItemPageComponent {
       description: [this.item?.description],
       done: [this.item?.done],
     });
+
+    this.isSaved = false;
   }
 
   toggleChecked(checked: MatCheckboxChange) {
@@ -115,9 +125,18 @@ export class ItemPageComponent {
 
   cancelEdit() {
     this.editMode = false;
+    this.isSaved = true;
   }
 
   back() {
     this.location.back();
+  }
+
+  canDeactivateEdit(): boolean {
+    if (!this.isSaved) {
+      return false;
+    }
+
+    return true;
   }
 }
