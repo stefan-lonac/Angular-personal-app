@@ -1,10 +1,8 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[appLengthClass]'
+  selector: '[appLengthClass]',
 })
 export class LengthClassDirective {
-
-  constructor() { }
-
+  constructor() {}
 }

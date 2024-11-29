@@ -6,59 +6,66 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { User } from './login/user';
-import { SignoutDialogComponent } from '../profile/signout-dialog/signout-dialog.component';
-import { NbDialogService } from '@nebular/theme';
+import { User } from './login/model/user.model';
+import { switchMap, of, map } from 'rxjs';
+import { SignoutDialogService } from '../profile/signout-dialog/signout-dialog.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  userData: any;
   wrongLogin: boolean = true;
   user: User;
   userRef: AngularFirestoreCollection<User>;
   loading: boolean = false;
+
+  get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (!user) {
+      return false;
+    }
+
+    this.afAuth.authState.subscribe((user) => {
+      if (!user) {
+        return;
+      }
+
+      this.userRef = this.afs.collection('login', (ref) =>
+        ref.where('uid', '==', user.uid).orderBy('date', 'desc'),
+      );
+      this.getUser(user.uid);
+    });
+
+    return true;
+  }
 
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
-    private dialogNbService: NbDialogService
-  ) {
-    if (this.isLoggedIn) {
-      // Fetch user loggedin user ID
-      this.afAuth.authState.subscribe((user) => {
-        if (user) {
-          this.userData = user.uid;
-          this.userRef = this.afs.collection('login', (ref) =>
-            ref.where('uid', '==', this.userData).orderBy('date', 'desc')
-          );
-          this.getUser(user.uid);
-        }
-      });
-    } else {
-      localStorage.setItem('user', 'null');
-    }
-  }
+    private _signoutDialogService: SignoutDialogService,
+  ) {}
 
-  // Get Loggedin User ID and push to the localStorage
   getUser(id: string) {
     return this.afs
       .collection('login')
       .doc(id)
       .valueChanges()
-      .subscribe((user) => {
-        if (user) {
-          this.userData = user;
-          localStorage.setItem('user', JSON.stringify(this.userData));
+      .pipe(
+        map((user) => {
+          if (!user) {
+            return;
+          }
+
+          this.user = user as User;
+          localStorage.setItem('user', JSON.stringify(user));
           JSON.parse(localStorage.getItem('user')!);
-        }
-      });
+        }),
+      )
+      .subscribe();
   }
 
-  // SignIn function
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
@@ -68,7 +75,7 @@ export class AuthService {
           if (user) {
             this.loading = true;
             this.getUser(user.uid);
-            localStorage.setItem('user', JSON.stringify(this.userData));
+            localStorage.setItem('user', JSON.stringify(this.user));
             setTimeout(() => {
               this.loading = false;
               this.router.navigate(['todos']);
@@ -101,16 +108,9 @@ export class AuthService {
       });
   }
 
-  // Check if user login or not
-  get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== null && user?.emailVerified === false ? true : false;
-  }
-
-  // Fetch user data from Firebase
   SetUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `login/${user.uid}`
+      `login/${user.uid}`,
     );
     const userData = {
       uid: user.uid,
@@ -123,24 +123,14 @@ export class AuthService {
     });
   }
 
-  // Update Firebase Field
   update(id: string, data: object): Promise<void> {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`login/${id}`);
     return userRef.set(data, { merge: true });
   }
 
-  // Remove user from LocalStorage and signOut
   signOut() {
-    const dialogRef = this.dialogNbService.open(SignoutDialogComponent, {
-      closeOnBackdropClick: false,
-    });
-
-    // Open Nebular Dialog and choose if you wont to signout or not
-    dialogRef.onClose.subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        localStorage.removeItem('user');
-        this.router.navigate(['login']);
-      }
+    this._signoutDialogService.open(true).subscribe(() => {
+      return this.router.navigate(['login']), localStorage.removeItem('user');
     });
   }
 }

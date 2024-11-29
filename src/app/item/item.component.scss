@@ -1,28 +1,28 @@
-@use '../../themes' as *;
 @import "../../variable.scss";
 @import "../../utility.scss";
 
 :host {
   .item {
     font-size: 16px;
-    a {
-      text-decoration: none;
+
+    .list-item-tile,
+    .edit {
+      margin-left: 10px;
       text-transform: capitalize;
+      text-decoration: none;
       cursor: pointer;
-      color: nb-theme(href-color);
+
       &.done-check {
         text-decoration: line-through;
       }
-
-      &:hover {
-        color: nb-theme(href-color-hover);
-      }
     }
+
     button.btn {
       &:nth-child(2) {
         margin: 0 5px;
       }
     }
+
     .status-table {
       input {
         margin-right: 5px;
@@ -33,13 +33,16 @@
       &.edit-button {
         color: $blueEdit;
       }
+
       &.delete-button {
         color: $redError;
         margin: 0 5px;
       }
+
       &.view-button {
         color: $grayColor;
       }
+
       fa-icon {
         font-size: 19px;
       }

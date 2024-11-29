@@ -1,23 +1,17 @@
-<nb-layout>
-  <nb-layout-header
-    fixed
-    *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
-  >
-    <header xLayout="row" fxLayoutAlign="start center"></header>
-  </nb-layout-header>
+<ng-container
+  fixed
+  *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
+>
+  <app-header></app-header>
+</ng-container>
 
-  <nb-layout-column>
-    <section class="main">
-      <div [@routeAnimations]="getRouteAnimationData()">
-        <router-outlet></router-outlet>
-      </div>
-    </section>
-  </nb-layout-column>
+<div class="main-content" [@routeAnimations]="getRouteAnimationData()">
+  <router-outlet></router-outlet>
+</div>
 
-  <nb-layout-footer
-    fixed
-    *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
-  >
-    <!-- Insert footer here -->
-  </nb-layout-footer>
-</nb-layout>
+<mat-card-footer
+  fixed
+  *ngIf="router.url !== '/login' && router.url !== '/sign-up'"
+>
+  <!-- Insert footer here -->
+</mat-card-footer>

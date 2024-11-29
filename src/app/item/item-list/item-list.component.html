@@ -1,10 +1,11 @@
-<nb-card [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
-  <nb-card-body>
-    <div class="list-info" fxLayout="row" fxLayoutAlign="space-between center">
-      <h2>Todo list - {{ itemsLength }}</h2>
+<section class="content">
+  <mat-card>
+    <mat-card-content>
+      <div class="list-info">
+        <h2>Todo list - {{ itemsLength }}</h2>
 
-      <!-- TODO 1: slice select option for items -->
-      <!-- <div>
+        <!-- TODO 1: slice select option for items -->
+        <!-- <div>
         <nb-select placeholder="Item per page" [(selected)]="setPerList">
           <nb-option value="5">5</nb-option>
           <nb-option value="10">10</nb-option>
@@ -13,113 +14,121 @@
         </nb-select>
       </div> -->
 
-      <input
-        nbInput
-        [(ngModel)]="searchText"
-        type="text"
-        id="search-items"
-        placeholder="Search todo"
-      />
-    </div>
-
-    <ng-container *ngIf="itemsLength === 0; else showItems">
-      <p *ngIf="filter == ItemFilters.all">Empty Todo. Please add some Todos</p>
-      <p *ngIf="filter == ItemFilters.active">
-        Empty Active Todo. Please add some Todos
-      </p>
-      <p *ngIf="filter == ItemFilters.completed">
-        Empty completed Todo. Please complete some Todos
-      </p>
-    </ng-container>
-
-    <ng-template #showItems>
-      <ul class="list-todo">
-        <!-- TODO 1: Create slice pipe items with search input "slice : 0 : setPerList" -->
-        <li
-          fxLayout="row"
-          fxLayoutAlign="space-between center"
-          class="fw-normal ptb-20"
-          todo-item
-          *ngFor="
-            let itemsEl of items | searchItems : searchText;
-            let i = index;
-            trackBy: trackById
-          "
-          [items]="itemsEl"
-          [index]="i"
-          [isEditing]="editingId === itemsEl.id"
-          (setEditModeId)="setEditId($event)"
-          [@inOutAnimation]
-        ></li>
-      </ul>
-    </ng-template>
-
-    <nb-radio-group
-      fxLayout="row"
-      fxLayoutAlign="center center"
-      [(ngModel)]="filter"
-    >
-      <nb-radio value="all" (click)="changeFilter(ItemFilters.all)"
-        >All</nb-radio
-      >
-      <nb-radio value="active" (click)="changeFilter(ItemFilters.active)"
-        >Active</nb-radio
-      >
-      <nb-radio value="completed" (click)="changeFilter(ItemFilters.completed)"
-        >Completed</nb-radio
-      >
-    </nb-radio-group>
-
-    <div class="add-todo">
-      <div class="title-input">
-        <span
-          class="length-input"
-          [ngClass]="{ errorLength: title.length > 20 }"
-          >{{ title | length : 20 }}</span
-        >
         <input
-          type="text"
           nbInput
-          fullWidth
-          class="add"
-          [ngClass]="{
-            'invalid-input': title.length < 3,
-            'empty-input': title === '',
-            'valid-input': title.length >= 3
-          }"
-          id="title"
-          placeholder="Title Todo"
-          [value]="title"
-          (keyup)="cahngeText($event)"
-          [(ngModel)]="title"
+          [(ngModel)]="searchText"
+          type="text"
+          id="search-items"
+          placeholder="Search todo"
         />
       </div>
 
-      <textarea
-        type="text"
-        nbInput
-        fullWidth
-        class="add"
-        style="height: 100px"
-        [ngClass]="{
-          'invalid-input': description.length < 3,
-          'empty-input': description === '',
-          'valid-input': description.length >= 3
-        }"
-        id="description"
-        placeholder="Description Todo"
-        [value]="description"
-        [(ngModel)]="description"
-      ></textarea>
+      <ng-container *ngIf="itemsLength === 0; else showItems">
+        <p *ngIf="filter == ItemFilters.all">
+          Empty Todo. Please add some Todos
+        </p>
+        <p *ngIf="filter == ItemFilters.active">
+          Empty Active Todo. Please add some Todos
+        </p>
+        <p *ngIf="filter == ItemFilters.completed">
+          Empty completed Todo. Please complete some Todos
+        </p>
+      </ng-container>
 
-      <button
-        (click)="onAddItem()"
-        nbButton
-        status="success"
-        [disabled]="title | disableBtn"
-      >
-        Add
-      </button>
-    </div>
-  </nb-card-body>
-</nb-card>
+      <ng-template #showItems>
+        <ul class="list-todo">
+          <!-- TODO 1: Create slice pipe items with search input "slice : 0 : setPerList" -->
+          <li
+            class="fw-normal ptb-20"
+            todo-item
+            *ngFor="
+              let itemsEl of items | searchItems: searchText;
+              let i = index;
+              trackBy: trackById
+            "
+            [items]="itemsEl"
+            [index]="i"
+            [isEditing]="editingId === itemsEl.id"
+            (setEditModeId)="setEditId($event)"
+            [@inOutAnimation]
+          ></li>
+        </ul>
+      </ng-template>
+      <mat-spinner *ngIf="loading"></mat-spinner>
+
+      <mat-radio-group [(ngModel)]="filter">
+        <mat-radio-button
+          [value]="ItemFilters.all"
+          (click)="changeFilter(ItemFilters.all)"
+          >All</mat-radio-button
+        >
+        <mat-radio-button
+          [value]="ItemFilters.active"
+          (click)="changeFilter(ItemFilters.active)"
+          >Active</mat-radio-button
+        >
+        <mat-radio-button
+          [value]="ItemFilters.completed"
+          (click)="changeFilter(ItemFilters.completed)"
+          >Completed</mat-radio-button
+        >
+      </mat-radio-group>
+
+      <div class="add-todo">
+        <div class="title-input">
+          <mat-form-field class="example-full-width">
+            <mat-label>Title Todo</mat-label>
+
+            <input
+              type="text"
+              matInput
+              class="title-input"
+              [value]="title.value"
+              (keyup)="cahngeText($event)"
+              [formControl]="title"
+              [errorStateMatcher]="matcherFrom"
+            />
+
+            <mat-error
+              *ngIf="title.hasError('title') && !title.hasError('required')"
+            >
+              Please enter a valid title
+            </mat-error>
+            <mat-error *ngIf="title.hasError('required')">
+              Title is <strong>required</strong>
+            </mat-error>
+
+            <mat-error *ngIf="title.hasError('minlength')">
+              Min length is <strong>3</strong>
+            </mat-error>
+
+            <mat-error *ngIf="title.hasError('maxlength')">
+              Max length is <strong>20</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field>
+          <textarea
+            matInput
+            class="description"
+            style="height: 100px"
+            id="description"
+            placeholder="Description Todo"
+            [value]="description.value"
+            [formControl]="description"
+          ></textarea>
+        </mat-form-field>
+
+        <button
+          (click)="onAddItem()"
+          mat-raised-button
+          color="primary"
+          [disabled]="!title.valid"
+        >
+          Add
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

@@ -1,16 +1,18 @@
-@use "themes" as *;
-
-@use "@nebular/theme/styles/globals" as *;
-
-@include nb-install() {
-  @include nb-theme-global();
-}
+@forward "assets/components/spinner";
+@import "theming";
 
 html,
 body {
   height: 100%;
 }
+
 body {
-  margin: 0;
+  margin: 15px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+section.content {
+  max-width: 100%;
+  width: 900px;
+  margin: 0 auto;
 }

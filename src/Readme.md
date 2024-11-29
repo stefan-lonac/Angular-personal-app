@@ -9,6 +9,7 @@ Email: <strong> admin@admin.com </strong> <br>
 Password: <strong> pass1234 </strong>
 
 The application contains:
+
 - Adding todo items.
 - Deleting an item
 - Item status changes (done and not done)

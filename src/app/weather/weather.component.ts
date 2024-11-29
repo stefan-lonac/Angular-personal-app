@@ -1,35 +1,16 @@
-// import { Component, OnInit } from '@angular/core';
-// import {
-//   FormBuilder,
-//   FormGroup,
-//   FormsModule,
-//   ReactiveFormsModule,
-// } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ApixuService } from './apixu.service';
 import { Weather } from './weather.model';
 import { TemperaturePipeClass } from './pipe/temperature-class.pipe';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
   standalone: true,
-  imports: [
-    TemperaturePipeClass,
-    CommonModule,
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [TemperaturePipeClass, CommonModule, ReactiveFormsModule],
 })
 export class WeatherComponent implements OnInit {
   weatherSrchForm: FormGroup;
@@ -38,7 +19,7 @@ export class WeatherComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private apixuService: ApixuService
+    private apixuService: ApixuService,
   ) {}
 
   ngOnInit(): void {

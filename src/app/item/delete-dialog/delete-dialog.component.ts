@@ -1,26 +1,23 @@
-import { Component, Input } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DeleteDialog } from './model/delete-dialog.model';
 
 @Component({
   templateUrl: './delete-dialog.component.html',
   styleUrls: ['./delete-dialog.component.scss'],
 })
 export class DeleteDialogComponent {
-  message: string = 'Are you sure want to delete item ';
-  confirmBtnTxt = 'Yes';
-  cancelBtnTxt = 'Cancel';
-  @Input() title: string;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DeleteDialog,
+    public dialogRef: MatDialogRef<DeleteDialogComponent>,
+  ) {}
 
-  constructor(private dialogNbRef: NbDialogRef<DeleteDialogComponent>) {
-    this.title;
-  }
+  protected message: string = 'Are you sure want to delete item ';
+  protected confirmBtnTxt: string = 'Yes';
+  protected cancelBtnTxt: string = 'Cancel';
 
   submit(value: string) {
-    value = this.title;
-    this.dialogNbRef.close(value);
-  }
-
-  close() {
-    this.dialogNbRef.close();
+    value = this.data.title;
+    this.dialogRef.close(value);
   }
 }

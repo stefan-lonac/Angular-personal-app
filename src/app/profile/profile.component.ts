@@ -1,75 +1,42 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NbGlobalLogicalPosition, NbToastrService } from '@nebular/theme';
+import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { EmptyTextPipe } from '../shared/pipe/empty-text.pipe';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../auth/login/user';
+import { User } from '../auth/login/model/user.model';
 
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    EmptyTextPipe,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatButtonModule,
+  ],
 })
-export class ProfileComponent implements OnInit, OnChanges {
+export class ProfileComponent implements OnInit {
   IMAGE_ROOT = '/assets/img/';
-  user: User;
-  profileForm: FormGroup;
-  editMode: boolean;
-  emailName: any;
-  defaultImg: string =
+  protected user: User;
+  protected profileForm: FormGroup;
+  protected editMode: boolean;
+  protected emailName: string;
+  protected defaultImg: string =
     'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png';
-
-  constructor(
-    public authService: AuthService,
-    private formBuilder: FormBuilder,
-    private nbToastr: NbToastrService
-  ) {}
-
-  ngOnChanges(): void {}
-
-  ngOnInit(): void {
-    if (this.authService.isLoggedIn) {
-      // console.log(this.user.photoURL);
-      this.userGet;
-      this.formGet;
-      const useEmailName = this.user.email.split(/@(?=[^@]*$)/);
-      this.emailName = useEmailName[0];
-    }
-  }
-
-  onUpdate() {
-    if (this.user.uid) {
-      this.authService.userData = this.profileForm.value;
-
-      this.authService
-        .update(this.user.uid, this.profileForm.value)
-        .then(() => {
-          // Show popup after Edit Prfile
-          this.nbToastr.show(``, `Profile edited successfully!`, {
-            status: 'success',
-            position: NbGlobalLogicalPosition.BOTTOM_END,
-            limit: 3,
-            duration: 3000,
-          });
-          this.authService.SetUserData(this.authService.userData);
-          localStorage.setItem(
-            'user',
-            JSON.stringify(this.authService.userData)
-          );
-        })
-        .catch((err) => console.log(err));
-      this.editMode = false;
-    }
-  }
-
-  onEditMode() {
-    this.editMode = true;
-    this.userGet;
-    this.formGet;
-  }
-
-  cancelEdit() {
-    this.editMode = false;
-  }
+  protected isSaved = true;
 
   private get formGet() {
     return (this.profileForm = this.formBuilder.group({
@@ -82,5 +49,60 @@ export class ProfileComponent implements OnInit, OnChanges {
   private get userGet() {
     const userGet = JSON.parse(localStorage.getItem('user')!);
     return (this.user = { ...userGet });
+  }
+
+  constructor(
+    public authService: AuthService,
+    private formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar,
+  ) {}
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn) {
+      this.userGet;
+      this.formGet;
+      const useEmailName = this.user.email.split(/@(?=[^@]*$)/);
+      this.emailName = useEmailName[0];
+    }
+  }
+
+  onUpdate() {
+    if (this.user.uid) {
+      this.authService
+        .update(this.user.uid, this.profileForm.value)
+        .then(() => {
+          this._snackBar.open(`Profile edited successfully!`, ``, {
+            horizontalPosition: 'start',
+            verticalPosition: 'bottom',
+            duration: 2000,
+          });
+
+          this.authService.SetUserData(this.profileForm.value);
+          localStorage.setItem('user', JSON.stringify(this.profileForm.value));
+        })
+        .catch((err) => console.log(err));
+      this.editMode = false;
+      this.isSaved = true;
+    }
+  }
+
+  onEditMode() {
+    this.editMode = true;
+    this.userGet;
+    this.formGet;
+    this.isSaved = false;
+  }
+
+  cancelEdit() {
+    this.editMode = false;
+    this.isSaved = true;
+  }
+
+  public canDeactivateEdit() {
+    if (!this.isSaved) {
+      return false;
+    }
+
+    return true;
   }
 }

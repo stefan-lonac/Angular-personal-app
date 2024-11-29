@@ -7,8 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
-import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { of, switchMap } from 'rxjs';
 import { ItemsSevice } from './item.service';
 import { Items } from './shared/model/item.model';
 import {
@@ -17,18 +16,13 @@ import {
   faTrashCan,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  NbCheckboxModule,
-  NbDialogService,
-  NbGlobalLogicalPosition,
-  NbIconModule,
-  NbToastrService,
-} from '@nebular/theme';
 import { Router } from '@angular/router';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { ApplicationRoutes } from '../consts/application-routes';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeleteDialogService } from './delete-dialog/delete-dialog.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: '[todo-item]',
@@ -36,14 +30,13 @@ import { ApplicationRoutes } from '../consts/application-routes';
   styleUrls: ['./item.component.scss'],
   standalone: true,
   imports: [
-    NbCheckboxModule,
-    NbEvaIconsModule,
-    NbIconModule,
     FontAwesomeModule,
     CommonModule,
+    MatSnackBarModule,
+    MatCheckboxModule,
   ],
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent {
   @Input() items: Items;
   @Input() index: number;
   @Input('isEditing') isEditingProps: boolean;
@@ -62,12 +55,10 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private itemsService: ItemsSevice,
-    private nbToastr: NbToastrService,
+    private _snackBar: MatSnackBar,
     private router: Router,
-    private dialogNbService: NbDialogService
+    private _deleteServiceDialog: DeleteDialogService,
   ) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges() {
     this.itemCurrent = { ...this.items };
@@ -75,33 +66,34 @@ export class ItemComponent implements OnInit {
 
   onView() {
     this.router.navigate([
-      ApplicationRoutes.Todos._Base,
-      ApplicationRoutes.Todos.ItemDetails,
+      ApplicationRoutes.Item._Base,
       this.itemCurrent.id_main,
     ]);
   }
 
   onDelete() {
-    const dialogRef = this.dialogNbService.open(DeleteDialogComponent, {
-      closeOnBackdropClick: false,
-      context: { title: this.items.title },
-    });
-
-    dialogRef.onClose.subscribe((data) => {
-      if (this.itemCurrent.id_main && data) {
-        this.nbToastr.show(
-          `Item - ${this.itemCurrent.title}`,
-          `Remove successfully!`,
-          {
-            status: 'success',
-            position: NbGlobalLogicalPosition.BOTTOM_END,
-            limit: 3,
-            duration: 2000,
+    this._deleteServiceDialog
+      .open({ title: this.items.title })
+      .pipe(
+        switchMap((response) => {
+          if (!this.itemCurrent.id_main && !response) {
+            return of(null);
           }
-        );
-        this.itemsService.delete(this.itemCurrent.id_main);
-      }
-    });
+
+          this._snackBar.open(
+            `Item - ${this.itemCurrent.title}`,
+            `Remove successfully!`,
+            {
+              horizontalPosition: 'start',
+              verticalPosition: 'bottom',
+              duration: 2000,
+            },
+          );
+
+          return this.itemsService.delete(this.itemCurrent.id_main);
+        }),
+      )
+      .subscribe();
   }
 
   changeStatus() {
@@ -123,12 +115,15 @@ export class ItemComponent implements OnInit {
     if (this.isEdit) {
       this.setEdittingMode.emit(this.items.id);
 
-      this.nbToastr.show(`Edit Mode`, `Hit Enter if you wont to save changes`, {
-        status: 'info',
-        position: NbGlobalLogicalPosition.BOTTOM_END,
-        limit: 3,
-        duration: 3500,
-      });
+      this._snackBar.open(
+        `Edit Mode`,
+        `Hit Enter if you wont to save changes`,
+        {
+          horizontalPosition: 'start',
+          verticalPosition: 'bottom',
+          duration: 2000,
+        },
+      );
     } else {
       this.setEdittingMode.emit(null);
     }
@@ -146,10 +141,9 @@ export class ItemComponent implements OnInit {
     };
 
     if (this.itemCurrent.id_main) {
-      this.nbToastr.show(`Item - ${data.title}`, `Edited!`, {
-        status: 'success',
-        position: NbGlobalLogicalPosition.BOTTOM_END,
-        limit: 3,
+      this._snackBar.open(`Item - ${data.title}`, `Edited!`, {
+        horizontalPosition: 'start',
+        verticalPosition: 'bottom',
         duration: 2000,
       });
       this.itemsService.update(this.itemCurrent.id_main, data);

@@ -1,12 +1,14 @@
-<ng-container *ngIf="authService.userData as user">
-  <section>
+<ng-container *ngIf="authService.user as user">
+  <section class="content">
     <h1>User Profile</h1>
 
-    <nb-card class="box-shadow">
-      <nb-card-body class="profile-info">
+    <mat-card class="box-shadow profile-info">
+      <mat-card-content class="profile-info-content">
         <img
           [src]="
-            user?.photoURL === undefined || null || '' ? defaultImg : user?.photoURL
+            user?.photoURL === undefined || null || ''
+              ? defaultImg
+              : user?.photoURL
           "
           alt="avatar"
           class="rounded-img"
@@ -16,17 +18,17 @@
           {{ user?.displayName || emailName | emptyText }}
         </h2>
         <p class="mb-0">
-          {{ user?.role | emptyText }}
+          {{ user.role | emptyText }}
         </p>
         <p class="mb-0">
-          {{ user?.location | emptyText }}
+          {{ user.location | emptyText }}
         </p>
-      </nb-card-body>
-    </nb-card>
+      </mat-card-content>
+    </mat-card>
 
     <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
-      <nb-card class="box-shadow">
-        <nb-card-body>
+      <mat-card class="box-shadow">
+        <mat-card-content>
           <div>
             <h3>Full Name</h3>
             <div>
@@ -60,7 +62,7 @@
               </ng-container>
 
               <p *ngIf="!editMode">
-                {{ user?.role | emptyText }}
+                {{ user.role | emptyText }}
               </p>
             </div>
           </div>
@@ -80,7 +82,7 @@
               </ng-container>
 
               <p *ngIf="!editMode">
-                {{ user?.location | emptyText }}
+                {{ user.location | emptyText }}
               </p>
             </div>
           </div>
@@ -90,7 +92,7 @@
             <h3>Email</h3>
 
             <div>
-              <p>{{ user?.email | emptyText }}</p>
+              <p>{{ user.email | emptyText }}</p>
             </div>
           </div>
           <hr />
@@ -102,36 +104,34 @@
               <p>{{ user.uid }}</p>
             </div>
           </div>
-        </nb-card-body>
-      </nb-card>
+        </mat-card-content>
+      </mat-card>
 
-      <div
-        class="controls-btn"
-        fxLayout=""
-        fxLayoutAlign="space-between center"
-      >
+      <div class="controls-btn">
         <div class="edit-save-buttons">
           <button
             *ngIf="!editMode"
-            nbButton
-            status="primary"
-            type="button"
+            mat-raised-button
+            color="primary"
             (click)="onEditMode()"
           >
             Edit
           </button>
 
-          <button *ngIf="editMode" nbButton status="success" type="submit">
+          <button
+            *ngIf="editMode"
+            mat-raised-button
+            color="accent"
+            class="save-button"
+          >
             Save
           </button>
 
           <button
             *ngIf="editMode"
-            nbButton
-            status="danger"
-            type="button"
+            mat-raised-button
+            color="primary"
             (click)="cancelEdit()"
-            style="margin-left: 10px"
           >
             Cancel
           </button>
@@ -139,9 +139,8 @@
 
         <div class="logout-button">
           <button
-            type="button"
-            nbButton
-            status="danger"
+            mat-raised-button
+            color="warn"
             (click)="authService.signOut()"
           >
             Logout

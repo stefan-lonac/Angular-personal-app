@@ -7,14 +7,13 @@
     max-width: 100%;
     margin: 0 auto;
     .input-container {
-        position: relative;
+      position: relative;
+      max-width: 100%;
+      input {
+        width: 100%;
         max-width: 100%;
-        input {
-            width: 100%;
-            max-width: 100%;
-        }
+      }
     }
-    
 
     .authBlock {
       h3 {
