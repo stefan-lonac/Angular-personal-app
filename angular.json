@@ -32,6 +32,7 @@
               "src/Readme.md"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "./node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
@@ -75,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "personal-app:build:production"
+              "buildTarget": "personal-app:build:production"
             },
             "development": {
-              "browserTarget": "personal-app:build:development"
+              "buildTarget": "personal-app:build:development"
             }
           },
           "options": {
@@ -89,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "personal-app:build"
+            "buildTarget": "personal-app:build"
           }
         },
         "test": {
@@ -105,6 +106,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -115,9 +117,6 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   },
   "cli": {
     "analytics": false
